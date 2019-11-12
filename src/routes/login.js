@@ -10,9 +10,12 @@ module.exports = app => {
         password
       } = req.body
 
-      const user = await User.findOne({
-        email
-      })
+      const user = await User
+        .findOne({
+          email
+        })
+        .lean()
+        .exec()
 
       if (!user) {
         const error = new Error('not-found')
@@ -29,6 +32,9 @@ module.exports = app => {
       }
 
       const token = await tokenUtils.create(user._id.toString())
+
+      delete user.password
+      delete user.__v
 
       res.json({
         user,
