@@ -15,16 +15,20 @@ module.exports = app => {
       })
 
       if (!user) {
-        return res.sendStatus(404)
+        const error = new Error('not-found')
+        error.statusCode = 404
+        return next(error)
       }
 
       const isPasswordEqual = await bcrypt.compare(password, user.password)
 
       if (!isPasswordEqual) {
-        return res.sendStatus(404)
+        const error = new Error('not-found')
+        error.statusCode = 404
+        return next(error)
       }
 
-      const token = tokenUtils.create(user._id.toString())
+      const token = await tokenUtils.create(user._id.toString())
 
       res.json({
         user,

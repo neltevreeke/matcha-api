@@ -7,11 +7,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     unique: true
   },
-  password: String,
   age: Number,
-  gender: String
+  gender: String,
+  password: String
 })
 
-const User = mongoose.model('users', UserSchema)
+const User = mongoose.model('Users', UserSchema)
 
 module.exports = User
