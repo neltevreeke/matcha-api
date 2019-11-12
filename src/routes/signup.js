@@ -21,9 +21,7 @@ module.exports = app => {
         password
       })
 
-      return res.json({
-        message: 'User successfully created'
-      })
+      res.sendStatus(200)
     } catch (err) {
       const error = new Error('conflict')
       error.statusCode = 409
