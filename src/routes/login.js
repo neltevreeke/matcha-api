@@ -1,5 +1,4 @@
 const User = require('../models/User')
-const bcrypt = require('bcryptjs')
 const tokenUtils = require('../utils/token')
 
 module.exports = app => {
@@ -10,27 +9,7 @@ module.exports = app => {
         password
       } = req.body
 
-      const user = await User
-        .findOne({
-          email
-        })
-        .lean()
-        .exec()
-
-      if (!user) {
-        const error = new Error('not-found')
-        error.statusCode = 404
-        return next(error)
-      }
-
-      const isPasswordEqual = await bcrypt.compare(password, user.password)
-
-      if (!isPasswordEqual) {
-        const error = new Error('not-found')
-        error.statusCode = 404
-        return next(error)
-      }
-
+      const user = await User.getAuthenticatedUser(email, password)
       const token = await tokenUtils.create(user._id.toString())
 
       delete user.password

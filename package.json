@@ -6,7 +6,8 @@
     "dev": "NODE_ENV=development nodemon src/index.js --exec \"node --preserve-symlinks -r dotenv/config\"",
     "start": "NODE_ENV=production node -r dotenv/config src/index.js",
     "lint": "eslint .",
-    "lint-fix": "eslint . --fix"
+    "lint-fix": "eslint . --fix",
+    "seed": "node -r dotenv/config ./scripts/seed.js"
   },
   "husky": {
     "hooks": {
