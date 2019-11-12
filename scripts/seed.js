@@ -14,6 +14,7 @@ const connect = () => {
 
 const seed = async () => {
   await connect()
+  await mongoose.connection.db.dropDatabase()
   await Promise.all(seeding.map(seed => seed()))
   await mongoose.connection.close()
 }

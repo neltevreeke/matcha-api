@@ -1,8 +1,13 @@
 const User = require('../src/models/User')
+const Gender = require('../src/constants/Gender')
 
 const users = [{
   email: 'nelte.p.vreeke@gmail.com',
-  password: 'test1234'
+  password: 'test1234',
+  firstName: 'Nelte',
+  lastName: 'Vreeke',
+  age: 25,
+  gender: Gender.MALE
 }]
 
 const seed = async () => {

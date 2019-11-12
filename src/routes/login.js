@@ -12,11 +12,13 @@ module.exports = app => {
       const user = await User.getAuthenticatedUser(email, password)
       const token = await tokenUtils.create(user._id.toString())
 
-      delete user.password
-      delete user.__v
+      const userObject = user.toObject()
+
+      delete userObject.password
+      delete userObject.__v
 
       res.json({
-        user,
+        user: userObject,
         token
       })
     } catch (e) {
