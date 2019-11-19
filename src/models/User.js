@@ -10,7 +10,8 @@ const userSchema = new mongoose.Schema({
   },
   age: Number,
   gender: String,
-  password: String
+  password: String,
+  biography: String
 })
 
 userSchema.pre('save', async function (next) {

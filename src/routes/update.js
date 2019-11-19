@@ -1,24 +1,30 @@
 const User = require('../models/User')
+const { getDecodedToken } = require('../utils/token')
+const authMiddleware = require('../middleware/auth')
 
 module.exports = app => {
-  app.post('/signup', async (req, res, next) => {
+  app.post('/update', authMiddleware, async (req, res, next) => {
+    const tokenHeader = req.headers['x-token']
+    const token = await getDecodedToken(tokenHeader)
+    const userId = token.userId
+
     const {
       firstName,
       lastName,
       email,
       age,
       gender,
-      password
+      biography
     } = req.body
 
     try {
-      await User.create({
+      await User.findOneAndUpdate({ _id: userId }, {
         firstName,
         lastName,
         email,
         age,
         gender,
-        password
+        biography
       })
 
       res.sendStatus(200)
