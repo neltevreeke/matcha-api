@@ -1,6 +1,15 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
+const interestSchema = new mongoose.Schema({
+  label: {
+    type: String,
+    required: true
+  }
+}, {
+  _id: false
+})
+
 const userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
@@ -11,7 +20,8 @@ const userSchema = new mongoose.Schema({
   age: Number,
   gender: String,
   password: String,
-  biography: String
+  biography: String,
+  interests: [interestSchema]
 })
 
 userSchema.pre('save', async function (next) {

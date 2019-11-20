@@ -18,16 +18,23 @@ module.exports = app => {
     } = req.body
 
     try {
-      await User.findOneAndUpdate({ _id: userId }, {
+      const user = await User.findOneAndUpdate({ _id: userId }, {
         firstName,
         lastName,
         email,
         age,
         gender,
         biography
-      })
+      }, { new: true })
 
-      res.sendStatus(200)
+      const userObject = user.toObject()
+
+      delete userObject.password
+      delete userObject.__v
+
+      res.json({
+        user: userObject
+      })
     } catch (e) {
       const error = new Error('conflict')
       error.statusCode = 409
