@@ -10,6 +10,12 @@ const interestSchema = new mongoose.Schema({
   _id: false
 })
 
+const photoSchema = new mongoose.Schema({
+  cloudinaryPublicId: String,
+  url: String,
+  order: Number
+})
+
 const userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
@@ -21,7 +27,8 @@ const userSchema = new mongoose.Schema({
   gender: String,
   password: String,
   biography: String,
-  interests: [interestSchema]
+  interests: [interestSchema],
+  photos: [photoSchema]
 })
 
 userSchema.pre('save', async function (next) {
