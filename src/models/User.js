@@ -12,8 +12,9 @@ const interestSchema = new mongoose.Schema({
 
 const photoSchema = new mongoose.Schema({
   cloudinaryPublicId: String,
-  url: String,
   order: Number
+}, {
+  _id: false
 })
 
 const userSchema = new mongoose.Schema({
