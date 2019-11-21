@@ -8,24 +8,8 @@ module.exports = app => {
     const token = await getDecodedToken(tokenHeader)
     const userId = token.userId
 
-    const {
-      firstName,
-      lastName,
-      email,
-      age,
-      gender,
-      biography
-    } = req.body
-
     try {
-      const user = await User.findOneAndUpdate({ _id: userId }, {
-        firstName,
-        lastName,
-        email,
-        age,
-        gender,
-        biography
-      }, { new: true })
+      const user = await User.findOneAndUpdate({ _id: userId }, req.body, { new: true })
 
       const userObject = user.toObject()
 

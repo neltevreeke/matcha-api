@@ -23,6 +23,12 @@ const authMiddleware = async (req, res, next) => {
     .lean()
     .exec()
 
+  if (!user) {
+    const error = new Error('not-allowed')
+    error.statusCode = 401
+    return next(error)
+  }
+
   delete user.password
   delete user.__v
 

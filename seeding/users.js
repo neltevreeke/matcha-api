@@ -7,7 +7,13 @@ const users = [{
   firstName: 'Nelte',
   lastName: 'Vreeke',
   age: 25,
-  gender: Gender.MALE
+  gender: Gender.MALE,
+  biography: 'This is a biography',
+  interests: [{
+    label: 'anussen'
+  }, {
+    label: 'testjeee'
+  }]
 }]
 
 const seed = async () => {
