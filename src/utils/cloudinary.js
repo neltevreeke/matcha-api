@@ -11,6 +11,17 @@ const getSignature = (params) => {
   return cloudinary.utils.api_sign_request(params, config.CLOUDINARY_SECRET)
 }
 
+const removeImage = publicId => new Promise((resolve, reject) => {
+  cloudinary.v2.uploader.destroy(publicId, error => {
+    if (error) {
+      return reject(error)
+    }
+
+    resolve()
+  })
+})
+
 module.exports = {
-  getSignature
+  getSignature,
+  removeImage
 }
