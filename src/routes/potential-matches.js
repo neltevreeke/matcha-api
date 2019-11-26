@@ -9,6 +9,12 @@ module.exports = app => {
           $ne: req.user._id.toString()
         }
       })
+      .select([
+        '_id',
+        'firstName',
+        'lastName',
+        'cloudinaryPublicId'
+      ])
       .lean()
       .exec()
 
