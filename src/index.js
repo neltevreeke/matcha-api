@@ -1,9 +1,14 @@
 const mongoose = require('mongoose')
+const http = require('http')
 const config = require('./config')
 const app = require('./app')
+const initSocketServer = require('./socketServer')
 
 const startServer = async () => {
   try {
+    const server = http.createServer(app)
+    initSocketServer(server)
+
     await Promise.all([
       mongoose.connect(config.MONGODB_URI, {
         useNewUrlParser: true,
@@ -12,7 +17,7 @@ const startServer = async () => {
         useCreateIndex: true,
         useUnifiedTopology: true
       }),
-      app.listen(config.PORT)
+      server.listen(config.PORT)
     ])
 
     // eslint-disable-next-line no-console
