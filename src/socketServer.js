@@ -19,39 +19,41 @@ const removeOnlineUser = (user) => {
   return onlineUsers
 }
 
+const authMiddleware = async (socket, next) => {
+  const token = socket.handshake.query.token
+
+  if (!token) {
+    return next(new Error('auth'))
+  }
+
+  const decodedToken = await getDecodedToken(token)
+
+  if (!decodedToken.userId) {
+    return next(new Error('auth'))
+  }
+
+  const { userId } = decodedToken
+
+  const user = await User
+    .findById(userId)
+    .lean()
+    .exec()
+
+  if (!user) {
+    return next(new Error('auth'))
+  }
+
+  delete user.password
+  delete user.__v
+
+  socket.user = user
+  next()
+}
+
 function initSocketServer (server) {
   const io = socketIo(server)
 
-  io.use(async (socket, next) => {
-    const token = socket.handshake.query.token
-
-    if (!token) {
-      return next(new Error('auth'))
-    }
-
-    const decodedToken = await getDecodedToken(token)
-
-    if (!decodedToken.userId) {
-      return next(new Error('auth'))
-    }
-
-    const { userId } = decodedToken
-
-    const user = await User
-      .findById(userId)
-      .lean()
-      .exec()
-
-    if (!user) {
-      return next(new Error('auth'))
-    }
-
-    delete user.password
-    delete user.__v
-
-    socket.user = user
-    next()
-  })
+  io.use(authMiddleware)
 
   io.on('connection', socket => {
     addOnlineUser(socket.user)

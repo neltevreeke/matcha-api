@@ -1,23 +1,16 @@
 const User = require('../models/User')
-const { getDecodedToken } = require('../utils/token')
 const authMiddleware = require('../middleware/auth')
 const { removeImage } = require('../utils/cloudinary')
 
 module.exports = app => {
   app.post('/update', authMiddleware, async (req, res, next) => {
-    const tokenHeader = req.headers['x-token']
-    const token = await getDecodedToken(tokenHeader)
-    const userId = token.userId
-
     try {
       if (req.body.deletedPhoto) {
-        removeImage(req.body.deletedPhoto.cloudinaryPublicId)
-
+        await removeImage(req.body.deletedPhoto.cloudinaryPublicId)
         delete req.body.deletedPhoto.cloudinaryPublicId
       }
 
-      const user = await User.findOneAndUpdate({ _id: userId }, req.body, { new: true })
-
+      const user = await User.findByIdAndUpdate(req.user._id.toString(), req.body, { new: true })
       const userObject = user.toObject()
 
       delete userObject.password
