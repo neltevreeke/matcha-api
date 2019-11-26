@@ -10,9 +10,22 @@ const users = [{
   gender: Gender.MALE,
   biography: 'This is a biography',
   interests: [{
-    label: 'anussen'
+    label: 'Coding'
   }, {
-    label: 'testjeee'
+    label: 'Music Production'
+  }]
+}, {
+  email: 'test@test.nl',
+  password: 'test',
+  firstName: 'Theresa',
+  lastName: 'Williams',
+  age: 27,
+  gender: Gender.FEMALE,
+  biography: 'Test biography',
+  interests: [{
+    label: 'Make-up'
+  }, {
+    label: 'music'
   }]
 }]
 
