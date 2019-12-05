@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
+const Gender = require('../constants/Gender')
+const GenderPreference = require('../constants/GenderPreference')
 
 const interestSchema = new mongoose.Schema({
   label: {
@@ -25,11 +27,24 @@ const userSchema = new mongoose.Schema({
     unique: true
   },
   age: Number,
-  gender: String,
+  gender: {
+    type: String,
+    enum: Object.values(Gender)
+  },
   password: String,
   biography: String,
   interests: [interestSchema],
-  photos: [photoSchema]
+  photos: [photoSchema],
+  minDistance: Number,
+  maxDistance: Number,
+  minAge: Number,
+  maxAge: Number,
+  minFame: Number,
+  maxFame: Number,
+  genderPreference: {
+    type: String,
+    enum: Object.values(GenderPreference)
+  }
 })
 
 userSchema.pre('save', async function (next) {

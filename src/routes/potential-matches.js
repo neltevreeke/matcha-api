@@ -13,7 +13,10 @@ module.exports = app => {
         '_id',
         'firstName',
         'lastName',
-        'cloudinaryPublicId'
+        'age',
+        'biography',
+        'photos',
+        'interests'
       ])
       .lean()
       .exec()
