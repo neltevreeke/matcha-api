@@ -39,8 +39,10 @@ const userSchema = new mongoose.Schema({
   maxDistance: Number,
   minAge: Number,
   maxAge: Number,
-  minFame: Number,
-  maxFame: Number,
+  minFameRating: Number,
+  maxFameRating: Number,
+  minTags: Number,
+  maxTags: Number,
   genderPreference: {
     type: String,
     enum: Object.values(GenderPreference)
