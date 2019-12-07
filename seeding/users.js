@@ -21,12 +21,34 @@ const users = [{
   lastName: 'Williams',
   age: 27,
   gender: Gender.FEMALE,
-  biography: 'Test biography',
+  biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
+  photos: [{
+    cloudinaryPublicId: 'user-photos/zt2acs6aqjobmmmlivwk'
+  }, {
+    cloudinaryPublicId: 'user-photos/q2rmpri95moli67u6rgn'
+  }],
   interests: [{
     label: 'Make-up'
   }, {
     label: 'music'
-  }]
+  }],
+  fameRating: 76
+}, {
+  email: 'mike@mike.nl',
+  password: 'test',
+  firstName: 'Mike',
+  lastName: 'Vercoelen',
+  age: 53,
+  gender: Gender.MALE,
+  biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
+  interests: [{
+    label: 'cars'
+  }, {
+    label: 'hardware'
+  }, {
+    label: 'Programming'
+  }],
+  fameRating: 4
 }]
 
 const seed = async () => {

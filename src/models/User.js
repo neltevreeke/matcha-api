@@ -35,6 +35,7 @@ const userSchema = new mongoose.Schema({
   biography: String,
   interests: [interestSchema],
   photos: [photoSchema],
+  fameRating: Number,
   minDistance: Number,
   maxDistance: Number,
   minAge: Number,
