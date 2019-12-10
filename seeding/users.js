@@ -17,8 +17,8 @@ const users = [{
 }, {
   email: 'test@test.nl',
   password: 'test',
-  firstName: 'Theresa',
-  lastName: 'Williams',
+  firstName: 'Hetero',
+  lastName: 'Woman',
   age: 27,
   gender: Gender.FEMALE,
   biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
@@ -32,12 +32,13 @@ const users = [{
   }, {
     label: 'music'
   }],
-  fameRating: 76
+  fameRating: 76,
+  genderPreference: 'MALE'
 }, {
-  email: 'mike@mike.nl',
+  email: 'gay@male.nl',
   password: 'test',
-  firstName: 'Mike',
-  lastName: 'Vercoelen',
+  firstName: 'Gay',
+  lastName: 'Male',
   age: 53,
   gender: Gender.MALE,
   biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
@@ -48,7 +49,59 @@ const users = [{
   }, {
     label: 'Programming'
   }],
-  fameRating: 4
+  fameRating: 4,
+  genderPreference: 'MALE'
+}, {
+  email: 'lol@lol.nl',
+  password: 'test',
+  firstName: 'Gay',
+  lastName: 'Woman',
+  age: 53,
+  gender: Gender.WOMAN,
+  biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
+  interests: [{
+    label: 'being gay'
+  }, {
+    label: 'gay testing'
+  }, {
+    label: 'test'
+  }],
+  fameRating: 18,
+  genderPreference: 'FEMALE'
+}, {
+  email: 'hetero@guy.nl',
+  password: 'test',
+  firstName: 'Hetero',
+  lastName: 'Guy',
+  age: 70,
+  gender: Gender.MALE,
+  biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
+  interests: [{
+    label: 'test'
+  }, {
+    label: 'test'
+  }, {
+    label: 'testest'
+  }],
+  fameRating: 88,
+  genderPreference: 'FEMALE'
+}, {
+  email: 'bi@woman.nl',
+  password: 'test',
+  firstName: 'Woman',
+  lastName: 'isBi',
+  age: 53,
+  gender: Gender.FEMALE,
+  biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
+  interests: [{
+    label: 'males'
+  }, {
+    label: 'females'
+  }, {
+    label: 'bisexual'
+  }],
+  fameRating: 4,
+  genderPreference: 'BISEXUAL'
 }]
 
 const seed = async () => {

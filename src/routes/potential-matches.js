@@ -1,5 +1,7 @@
 const authMiddleware = require('../middleware/auth')
 const User = require('../models/User')
+const GenderPreference = require('../constants/GenderPreference')
+const Gender = require('../constants/Gender')
 
 module.exports = app => {
   app.get('/potential-matches', authMiddleware, async (req, res) => {
@@ -21,6 +23,26 @@ module.exports = app => {
       genderPreference
     } = req.user
 
+    let genderQuery = {}
+
+    if (genderPreference === GenderPreference.MALE) {
+      genderQuery = {
+        gender: Gender.MALE
+      }
+    } else if (genderPreference === GenderPreference.FEMALE) {
+      genderQuery = {
+        gender: Gender.FEMALE
+      }
+    } else if (genderPreference === GenderPreference.BISEXUAL) {
+      genderQuery = {
+        $or: [{
+          gender: Gender.MALE
+        }, {
+          gender: Gender.FEMALE
+        }]
+      }
+    }
+
     const potentialMatches = await User
       .find({
         _id: {
@@ -34,9 +56,7 @@ module.exports = app => {
           $lte: maxFameRating,
           $gte: minFameRating
         },
-        gender: {
-          $eq: genderPreference.toLowerCase()
-        }
+        ...genderQuery
       })
       .select([
         '_id',
@@ -46,10 +66,21 @@ module.exports = app => {
         'biography',
         'photos',
         'interests',
-        'fameRating'
+        'fameRating',
+        'genderPreference'
       ])
       .lean()
       .exec()
+
+    potentialMatches.filter(match => {
+      if (match.genderPreference !== req.user.gender && req.user.genderPreference !== match.gender) {
+        return false
+      } else if (req.user.genderPreference === GenderPreference.BISEXUAL && match.genderPreference !== req.user.gender) {
+        return false
+      } else if (match.genderPreference === GenderPreference.BISEXUAL && match.genderPreference !== req.user.gender) {
+        return false
+      }
+    })
 
     res.json({
       potentialMatches
