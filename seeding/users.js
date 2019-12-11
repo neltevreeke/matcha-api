@@ -57,7 +57,7 @@ const users = [{
   firstName: 'Gay',
   lastName: 'Woman',
   age: 53,
-  gender: Gender.WOMAN,
+  gender: Gender.FEMALE,
   biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
   interests: [{
     label: 'being gay'

@@ -9,7 +9,6 @@ module.exports = app => {
     // use:
     // distance (minDistance, maxDistance)
     // matching interest tags (minTags, maxTags)
-    // bisexuality
 
     const {
       minAge,
@@ -67,23 +66,51 @@ module.exports = app => {
         'photos',
         'interests',
         'fameRating',
-        'genderPreference'
+        'genderPreference',
+        'gender'
       ])
       .lean()
       .exec()
 
-    potentialMatches.filter(match => {
-      if (match.genderPreference !== req.user.gender && req.user.genderPreference !== match.gender) {
-        return false
-      } else if (req.user.genderPreference === GenderPreference.BISEXUAL && match.genderPreference !== req.user.gender) {
-        return false
-      } else if (match.genderPreference === GenderPreference.BISEXUAL && match.genderPreference !== req.user.gender) {
-        return false
+    const filteredPotentialMatches = potentialMatches.filter(match => {
+      const matchIsBisexual = match.genderPreference === GenderPreference.BISEXUAL
+      const userIsBisexual = req.user.genderPreference === GenderPreference.BISEXUAL
+
+      const userIsGay = req.user.gender === Gender.MALE && req.user.genderPreference === GenderPreference.MALE
+      const matchIsGay = match.gender === Gender.MALE && match.genderPreference === GenderPreference.MALE
+
+      const userIsLesbo = req.user.gender === Gender.FEMALE && req.user.genderPreference === GenderPreference.FEMALE
+      const matchIsLesbo = match.gender === Gender.FEMALE && match.genderPreference === GenderPreference.FEMALE
+
+      // bisexuality
+      if (matchIsBisexual && userIsBisexual) {
+        return match
+      } else if (matchIsBisexual && req.user.genderPreference.toLowerCase() === match.gender) {
+        return match
+      } else if (userIsBisexual && match.genderPreference.toLowerCase() === req.user.gender) {
+        return match
       }
+
+      // gay
+      if (userIsGay && matchIsGay) {
+        return match
+      }
+
+      // lesbo
+      if (userIsLesbo && matchIsLesbo) {
+        return match
+      }
+
+      // hetero
+      if (req.user.genderPreference.toLowerCase() === match.gender && match.genderPreference.toLowerCase() === req.user.gender) {
+        return match
+      }
+
+      return false
     })
 
     res.json({
-      potentialMatches
+      filteredPotentialMatches
     })
   })
 }
