@@ -102,6 +102,23 @@ const users = [{
   }],
   fameRating: 4,
   genderPreference: 'BISEXUAL'
+}, {
+  email: 'bi@woman.nl',
+  password: 'test',
+  firstName: 'Man',
+  lastName: 'isBi',
+  age: 53,
+  gender: Gender.MALE,
+  biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
+  interests: [{
+    label: 'males'
+  }, {
+    label: 'females'
+  }, {
+    label: 'bisexual'
+  }],
+  fameRating: 4,
+  genderPreference: 'BISEXUAL'
 }]
 
 const seed = async () => {

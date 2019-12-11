@@ -82,7 +82,6 @@ module.exports = app => {
       const userIsLesbo = req.user.gender === Gender.FEMALE && req.user.genderPreference === GenderPreference.FEMALE
       const matchIsLesbo = match.gender === Gender.FEMALE && match.genderPreference === GenderPreference.FEMALE
 
-      // bisexuality
       if (matchIsBisexual && userIsBisexual) {
         return match
       } else if (matchIsBisexual && req.user.genderPreference.toLowerCase() === match.gender) {
@@ -91,17 +90,14 @@ module.exports = app => {
         return match
       }
 
-      // gay
       if (userIsGay && matchIsGay) {
         return match
       }
 
-      // lesbo
       if (userIsLesbo && matchIsLesbo) {
         return match
       }
 
-      // hetero
       if (req.user.genderPreference.toLowerCase() === match.gender && match.genderPreference.toLowerCase() === req.user.gender) {
         return match
       }
