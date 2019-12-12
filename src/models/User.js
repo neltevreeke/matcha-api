@@ -32,6 +32,8 @@ const userSchema = new mongoose.Schema({
     enum: Object.values(Gender)
   },
   password: String,
+  long: String,
+  lat: String,
   biography: String,
   interests: [interestSchema],
   photos: [photoSchema],
