@@ -7,13 +7,11 @@ module.exports = app => {
   app.get('/potential-matches', authMiddleware, async (req, res) => {
     // todo: Update query and userModel
     // use:
-    // distance (minDistance, maxDistance)
     // matching interest tags (minTags, maxTags)
 
     const {
       minAge,
       maxAge,
-      // minDistance,
       maxDistance,
       // minTags,
       // maxTags,
