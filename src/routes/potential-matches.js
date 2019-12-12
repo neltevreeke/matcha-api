@@ -14,12 +14,13 @@ module.exports = app => {
       minAge,
       maxAge,
       // minDistance,
-      // maxDistance,
+      maxDistance,
       // minTags,
       // maxTags,
       minFameRating,
       maxFameRating,
-      genderPreference
+      genderPreference,
+      loc
     } = req.user
 
     let genderQuery = {}
@@ -42,6 +43,17 @@ module.exports = app => {
       }
     }
 
+    const locationQuery = {
+      loc: {
+        $geoWithin: {
+          $centerSphere: [
+            [loc[0], loc[1]],
+            maxDistance / 6378.1
+          ]
+        }
+      }
+    }
+
     const potentialMatches = await User
       .find({
         _id: {
@@ -55,7 +67,8 @@ module.exports = app => {
           $lte: maxFameRating,
           $gte: minFameRating
         },
-        ...genderQuery
+        ...genderQuery,
+        ...locationQuery
       })
       .select([
         '_id',

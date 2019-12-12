@@ -13,7 +13,10 @@ const users = [{
     label: 'Coding'
   }, {
     label: 'Music Production'
-  }]
+  }],
+  loc: {
+    coordinates: [52.374267, 4.915762]
+  }
 }, {
   email: 'test@test.nl',
   password: 'test',
@@ -33,7 +36,11 @@ const users = [{
     label: 'music'
   }],
   fameRating: 76,
-  genderPreference: 'MALE'
+  genderPreference: 'MALE',
+  loc: {
+    coordinates: [52.370216, 4.895168]
+  }
+  // amsterdam
 }, {
   email: 'gay@male.nl',
   password: 'test',
@@ -50,7 +57,10 @@ const users = [{
     label: 'Programming'
   }],
   fameRating: 4,
-  genderPreference: 'MALE'
+  genderPreference: 'MALE',
+  loc: {
+    coordinates: [51.350784, 5.264702]
+  }
 }, {
   email: 'lol@lol.nl',
   password: 'test',
@@ -67,7 +77,11 @@ const users = [{
     label: 'test'
   }],
   fameRating: 18,
-  genderPreference: 'FEMALE'
+  genderPreference: 'FEMALE',
+  loc: {
+    coordinates: [52.350784, 5.264702]
+  }
+  // almere
 }, {
   email: 'hetero@guy.nl',
   password: 'test',
@@ -84,7 +98,11 @@ const users = [{
     label: 'testest'
   }],
   fameRating: 88,
-  genderPreference: 'FEMALE'
+  genderPreference: 'FEMALE',
+  loc: {
+    coordinates: [52.292790, 4.907460]
+  }
+  // Oudekerk aan de amstel
 }, {
   email: 'bi@woman.nl',
   password: 'test',
@@ -101,9 +119,13 @@ const users = [{
     label: 'bisexual'
   }],
   fameRating: 4,
-  genderPreference: 'BISEXUAL'
+  genderPreference: 'BISEXUAL',
+  loc: {
+    coordinates: [52.077930, 5.125520]
+  }
+  // utrecht
 }, {
-  email: 'bi@woman.nl',
+  email: 'woman@woman.nl',
   password: 'test',
   firstName: 'Man',
   lastName: 'isBi',
@@ -118,7 +140,11 @@ const users = [{
     label: 'bisexual'
   }],
   fameRating: 4,
-  genderPreference: 'BISEXUAL'
+  genderPreference: 'BISEXUAL',
+  loc: {
+    coordinates: [51.957270, 5.220610]
+  }
+  // culemborg
 }]
 
 const seed = async () => {
