@@ -1,34 +1,7 @@
 const authMiddleware = require('../middleware/auth')
 const User = require('../models/User')
-// const Match = require('../models/Match')
 const GenderPreference = require('../constants/GenderPreference')
 const Gender = require('../constants/Gender')
-
-// const getMatchInfo = async (potentialMatch, userConnections, reqUserId) => {
-//   let isMatched = false
-//   let isConnected = false
-//
-//   for (const userConnection of userConnections) {
-//     if (potentialMatch._id.toString() === userConnection.likedUserId._id.toString()) {
-//       const oppositeUserConnection = await Match.findOne({
-//         sourceUserId: userConnection.likedUserId._id.toString(),
-//         likedUserId: reqUserId
-//       })
-//
-//       if (oppositeUserConnection) {
-//         isMatched = true
-//         break
-//       }
-//
-//       isConnected = true
-//     }
-//   }
-//
-//   return {
-//     isMatched,
-//     isConnected
-//   }
-// }
 
 module.exports = app => {
   app.get('/potential-matches', authMiddleware, async (req, res) => {
@@ -111,30 +84,6 @@ module.exports = app => {
       ])
       .lean()
       .exec()
-
-    // const userConnections = await Match
-    //   .find({
-    //     sourceUserId: reqUserId
-    //   })
-    //   .populate([
-    //     'sourceUserId',
-    //     'likedUserId'
-    //   ])
-    //   .lean()
-    //   .exec()
-
-    // await Match.where({
-    //     //   sourceUserId: reqUserId,
-    //     // })
-    //     //   .populate({
-    //     //     path: 'likedUserId',
-    //     //     populate: {
-    //     //       path:
-    //     //     }
-    //     //     match: {
-    //     //       likedUserId: reqUserId,
-    //     //     }
-    //     //   });
 
     const filteredPotentialMatches = potentialMatches.filter(match => {
       const matchIsBisexual = match.genderPreference === GenderPreference.BISEXUAL
