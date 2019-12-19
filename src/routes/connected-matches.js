@@ -2,25 +2,46 @@ const authMiddleware = require('../middleware/auth')
 const Match = require('../models/Match')
 
 module.exports = app => {
+  app.get('/connected-matches', authMiddleware, async (req, res, next) => {
+    const connectedMatches = await Match
+      .find({
+        sourceUserId: req.user._id
+      })
+      .lean()
+      .exec()
+
+    res.json({
+      connectedMatches
+    })
+  })
+
   app.post('/connected-matches', authMiddleware, async (req, res, next) => {
     const {
       sourceUserId,
-      likedUserId
+      likedUserId,
+      action
     } = req.body
 
-    const today = new Date()
-    const dd = String(today.getDate()).padStart(2, '0')
-    const mm = String(today.getMonth() + 1).padStart(2, '0')
-    const yyyy = today.getFullYear()
-
-    const currentDate = dd + '/' + mm + '/' + yyyy
-
     try {
-      await Match.create({
-        sourceUserId,
-        likedUserId,
-        date: currentDate
-      })
+      if (!action) {
+        const today = new Date()
+        const dd = String(today.getDate()).padStart(2, '0')
+        const mm = String(today.getMonth() + 1).padStart(2, '0')
+        const yyyy = today.getFullYear()
+
+        const currentDate = dd + '/' + mm + '/' + yyyy
+
+        await Match.create({
+          sourceUserId,
+          likedUserId,
+          date: currentDate
+        })
+      } else {
+        await Match.deleteOne({
+          sourceUserId,
+          likedUserId
+        })
+      }
 
       const connectedMatches = await Match
         .find({
