@@ -1,11 +1,30 @@
 const authMiddleware = require('../middleware/auth')
 const Match = require('../models/Match')
 
+const getMatchInfo = async (userConnection, reqUserId) => {
+  let isMatched = false
+
+  const oppositeUserConnection = await Match.findOne({
+    sourceUserId: userConnection.likedUserId._id.toString(),
+    likedUserId: reqUserId
+  })
+
+  if (oppositeUserConnection) {
+    isMatched = true
+  }
+
+  return {
+    isMatched
+  }
+}
+
 module.exports = app => {
   app.get('/get-matches', authMiddleware, async (req, res) => {
-    const userMatches = await Match
+    const reqUserId = req.user._id
+
+    const userConnections = await Match
       .find({
-        sourceUserId: req.user._id
+        sourceUserId: reqUserId
       })
       .populate([
         'sourceUserId',
@@ -13,31 +32,19 @@ module.exports = app => {
       ])
       .lean()
       .exec()
+
+    let userMatches = []
+
+    for (const userConnection of userConnections) {
+      const { isMatched } = await getMatchInfo(userConnection, reqUserId)
+
+      if (isMatched) {
+        userMatches.push(userConnection)
+      }
+    }
+
+    res.json({
+      userMatches
+    })
   })
 }
-
-// const getMatchInfo = async (potentialMatch, userConnections, reqUserId) => {
-//   let isMatched = false
-//   let isConnected = false
-//
-//   for (const userConnection of userConnections) {
-//     if (potentialMatch._id.toString() === userConnection.likedUserId._id.toString()) {
-//       const oppositeUserConnection = await Match.findOne({
-//         sourceUserId: userConnection.likedUserId._id.toString(),
-//         likedUserId: reqUserId
-//       })
-//
-//       if (oppositeUserConnection) {
-//         isMatched = true
-//         break
-//       }
-//
-//       isConnected = true
-//     }
-//   }
-//
-//   return {
-//     isMatched,
-//     isConnected
-//   }
-// }

@@ -118,13 +118,6 @@ module.exports = app => {
       return false
     })
 
-    // for (const potentialMatch of filteredPotentialMatches) {
-    //   const { isMatched, isConnected } = await getMatchInfo(potentialMatch, userConnections, reqUserId)
-    //
-    //   potentialMatch.isMatched = isMatched
-    //   potentialMatch.isConnected = isConnected
-    // }
-
     res.json({
       filteredPotentialMatches
     })
