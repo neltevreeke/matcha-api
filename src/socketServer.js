@@ -64,6 +64,21 @@ function initSocketServer (server) {
       removeOnlineUser(socket.user)
       io.emit('online-users', JSON.stringify(onlineUsers))
     })
+
+    socket.on('join-room', ({ roomId }) => {
+      socket.join(roomId)
+    })
+
+    socket.on('new-message', ({ message: { message, roomId } }) => {
+      // TODO: create mongodb RoomMessage..
+      socket.join(roomId)
+
+      io
+        .in(roomId)
+        .emit('received-new-message', JSON.stringify({
+          message
+        }))
+    })
   })
 }
 
