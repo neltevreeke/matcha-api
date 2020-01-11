@@ -1,8 +1,28 @@
 const authMiddleware = require('../middleware/auth')
 const Match = require('../models/Match')
+const Room = require('../models/Room')
+
+const getOrCreateRoom = async (userId, likedUserId) => {
+  const oppositeUserConnection = await Match
+    .findOne({
+      sourceUserId: likedUserId,
+      likedUserId: userId
+    })
+    .populate([
+      'room'
+    ])
+    .lean()
+    .exec()
+
+  if (oppositeUserConnection && oppositeUserConnection.room) {
+    return oppositeUserConnection.room
+  }
+
+  return Room.create({})
+}
 
 module.exports = app => {
-  app.get('/connected-matches', authMiddleware, async (req, res, next) => {
+  app.get('/connected-matches', authMiddleware, async (req, res) => {
     const connectedMatches = await Match
       .find({
         sourceUserId: req.user._id
@@ -24,17 +44,12 @@ module.exports = app => {
 
     try {
       if (!action) {
-        const today = new Date()
-        const dd = String(today.getDate()).padStart(2, '0')
-        const mm = String(today.getMonth() + 1).padStart(2, '0')
-        const yyyy = today.getFullYear()
-
-        const currentDate = dd + '/' + mm + '/' + yyyy
+        const room = await getOrCreateRoom(req.user._id, likedUserId)
 
         await Match.create({
           sourceUserId,
           likedUserId,
-          date: currentDate
+          room: room._id.toString()
         })
       } else {
         await Match.deleteOne({

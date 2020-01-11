@@ -12,6 +12,10 @@ const matchSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  room: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Room'
   }
 })
 

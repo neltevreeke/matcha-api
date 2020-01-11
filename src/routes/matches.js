@@ -19,7 +19,7 @@ const getMatchInfo = async (userConnection, reqUserId) => {
 }
 
 module.exports = app => {
-  app.get('/get-matches', authMiddleware, async (req, res) => {
+  app.get('/matches', authMiddleware, async (req, res) => {
     const reqUserId = req.user._id
 
     const userConnections = await Match

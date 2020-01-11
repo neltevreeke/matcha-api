@@ -58,11 +58,11 @@ function initSocketServer (server) {
   io.on('connection', socket => {
     addOnlineUser(socket.user)
 
-    io.emit('server message', JSON.stringify(onlineUsers))
+    io.emit('online-users', JSON.stringify(onlineUsers))
 
     socket.on('disconnect', () => {
       removeOnlineUser(socket.user)
-      io.emit('server message', JSON.stringify(onlineUsers))
+      io.emit('online-users', JSON.stringify(onlineUsers))
     })
   })
 }
