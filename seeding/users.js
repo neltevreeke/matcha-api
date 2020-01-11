@@ -16,7 +16,8 @@ const users = [{
   }],
   loc: {
     coordinates: [52.374267, 4.915762]
-  }
+  },
+  fameRating: 2
 }, {
   email: 'test@test.nl',
   password: 'test',
