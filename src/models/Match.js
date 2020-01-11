@@ -9,7 +9,10 @@ const matchSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Users'
   },
-  date: String
+  date: {
+    type: Date,
+    default: Date.now
+  }
 })
 
 matchSchema.index({ sourceUserId: 1, likedUserId: 1 }, { unique: true })

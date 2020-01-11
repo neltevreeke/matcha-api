@@ -33,7 +33,7 @@ module.exports = app => {
       .lean()
       .exec()
 
-    let userMatches = []
+    const userMatches = []
 
     for (const userConnection of userConnections) {
       const { isMatched } = await getMatchInfo(userConnection, reqUserId)
