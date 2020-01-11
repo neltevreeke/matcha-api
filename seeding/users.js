@@ -1,5 +1,6 @@
 const User = require('../src/models/User')
 const Gender = require('../src/constants/Gender')
+const GenderPreference = require('../src/constants/GenderPreference')
 
 const users = [{
   email: 'nelte.p.vreeke@gmail.com',
@@ -14,10 +15,10 @@ const users = [{
   }, {
     label: 'Music Production'
   }],
+  genderPreference: GenderPreference.FEMALE,
   loc: {
     coordinates: [52.374267, 4.915762]
-  },
-  fameRating: 2
+  }
 }, {
   email: 'test@test.nl',
   password: 'test',
@@ -36,8 +37,7 @@ const users = [{
   }, {
     label: 'music'
   }],
-  fameRating: 76,
-  genderPreference: 'MALE',
+  genderPreference: GenderPreference.MALE,
   loc: {
     coordinates: [52.370216, 4.895168]
   }
@@ -57,8 +57,7 @@ const users = [{
   }, {
     label: 'Programming'
   }],
-  fameRating: 4,
-  genderPreference: 'MALE',
+  genderPreference: GenderPreference.MALE,
   loc: {
     coordinates: [51.350784, 5.264702]
   }
@@ -77,8 +76,7 @@ const users = [{
   }, {
     label: 'test'
   }],
-  fameRating: 18,
-  genderPreference: 'FEMALE',
+  genderPreference: GenderPreference.FEMALE,
   loc: {
     coordinates: [52.350784, 5.264702]
   }
@@ -98,8 +96,7 @@ const users = [{
   }, {
     label: 'testest'
   }],
-  fameRating: 88,
-  genderPreference: 'FEMALE',
+  genderPreference: GenderPreference.FEMALE,
   loc: {
     coordinates: [52.292790, 4.907460]
   }
@@ -119,8 +116,7 @@ const users = [{
   }, {
     label: 'bisexual'
   }],
-  fameRating: 4,
-  genderPreference: 'BISEXUAL',
+  genderPreference: GenderPreference.BISEXUAL,
   loc: {
     coordinates: [52.077930, 5.125520]
   }
@@ -140,8 +136,7 @@ const users = [{
   }, {
     label: 'bisexual'
   }],
-  fameRating: 4,
-  genderPreference: 'BISEXUAL',
+  genderPreference: GenderPreference.BISEXUAL,
   loc: {
     coordinates: [51.957270, 5.220610]
   }
@@ -149,7 +144,16 @@ const users = [{
 }]
 
 const seed = async () => {
-  return Promise.all(users.map(user => User.create(user)))
+  return Promise.all(users.map(user => User.create({
+    ...user,
+    fameRating: 4,
+    minDistance: 0,
+    maxDistance: 50,
+    minAge: 18,
+    maxAge: 99,
+    minFameRating: 0,
+    maxFameRating: 200
+  })))
 }
 
 module.exports = seed
