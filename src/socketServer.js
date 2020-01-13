@@ -1,6 +1,7 @@
 const socketIo = require('socket.io')
 const { getDecodedToken } = require('./utils/token')
 const User = require('./models/User')
+const RoomMessage = require('./models/RoomMessage')
 
 let onlineUsers = []
 
@@ -69,14 +70,26 @@ function initSocketServer (server) {
       socket.join(roomId)
     })
 
-    socket.on('new-message', ({ message: { message, roomId } }) => {
-      // TODO: create mongodb RoomMessage..
+    socket.on('new-message', (message) => {
+      const {
+        roomId,
+        message: content
+      } = message
+
+      RoomMessage.create({
+        room: roomId,
+        createdBy: socket.user,
+        content
+      })
+
       socket.join(roomId)
 
       io
         .in(roomId)
         .emit('received-new-message', JSON.stringify({
-          message
+          createdBy: socket.user._id,
+          room: roomId,
+          content
         }))
     })
   })

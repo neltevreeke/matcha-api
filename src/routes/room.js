@@ -3,6 +3,7 @@ const RoomMessage = require('../models/RoomMessage')
 
 module.exports = app => {
   // TODO: add pagination...
+
   app.get('/rooms/:id/message', authMiddleware, async (req, res) => {
     const { id } = req.params
 
@@ -10,6 +11,7 @@ module.exports = app => {
       .find({
         room: id
       })
+      .populate()
       .lean()
       .exec()
 
