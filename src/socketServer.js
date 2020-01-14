@@ -87,7 +87,7 @@ function initSocketServer (server) {
       io
         .in(roomId)
         .emit('received-new-message', JSON.stringify({
-          createdBy: socket.user._id,
+          createdBy: socket.user,
           room: roomId,
           content
         }))

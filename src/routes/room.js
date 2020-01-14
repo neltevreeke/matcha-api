@@ -11,7 +11,9 @@ module.exports = app => {
       .find({
         room: id
       })
-      .populate()
+      .populate(
+        'createdBy'
+      )
       .lean()
       .exec()
 

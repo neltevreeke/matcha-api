@@ -8,7 +8,7 @@ const roomMessageSchema = mongoose.Schema({
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Users',
     index: true
   },
   content: {
