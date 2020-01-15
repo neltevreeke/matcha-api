@@ -1,0 +1,13 @@
+const EVENT_TYPE_MATCH = 'match'
+const EVENT_TYPE_UNMATCH = 'unmatch'
+const EVENT_TYPE_MESSAGE = 'message'
+const EVENT_TYPE_PROFILE_VIEW = 'profile-view'
+const EVENT_TYPE_CONNECT = 'connect'
+
+module.exports = {
+  EVENT_TYPE_MATCH,
+  EVENT_TYPE_UNMATCH,
+  EVENT_TYPE_MESSAGE,
+  EVENT_TYPE_PROFILE_VIEW,
+  EVENT_TYPE_CONNECT
+}

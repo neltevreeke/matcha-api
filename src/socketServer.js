@@ -2,6 +2,7 @@ const socketIo = require('socket.io')
 const { getDecodedToken } = require('./utils/token')
 const User = require('./models/User')
 const RoomMessage = require('./models/RoomMessage')
+const EventType = require('./constants/EventType')
 
 let onlineUsers = []
 
@@ -51,6 +52,26 @@ const authMiddleware = async (socket, next) => {
   next()
 }
 
+const onEventProfileView = async (io, socket, data) => {
+  const user = await User
+    .findById(data)
+    .select([
+      '_id',
+      'firstName',
+      'lastName',
+      'photos'
+    ])
+    .lean()
+    .exec()
+
+  io
+    .in(data)
+    .emit('event-receive', JSON.stringify({
+      type: EventType.EVENT_TYPE_PROFILE_VIEW,
+      data: user
+    }))
+}
+
 function initSocketServer (server) {
   const io = socketIo(server)
 
@@ -58,6 +79,9 @@ function initSocketServer (server) {
 
   io.on('connection', socket => {
     addOnlineUser(socket.user)
+
+    // By default join room with authenticated userId
+    socket.join(socket.user._id.toString())
 
     io.emit('online-users', JSON.stringify(onlineUsers))
 
@@ -68,6 +92,12 @@ function initSocketServer (server) {
 
     socket.on('join-room', ({ roomId }) => {
       socket.join(roomId)
+    })
+
+    socket.on('event', (event) => {
+      if (event.type === EventType.EVENT_TYPE_PROFILE_VIEW) {
+        return onEventProfileView(io, socket, event.data)
+      }
     })
 
     socket.on('new-message', (message) => {
