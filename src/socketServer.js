@@ -53,47 +53,27 @@ const authMiddleware = async (socket, next) => {
 }
 
 const onEventProfileView = async (io, socket, data) => {
-  const user = await User
-    .findById(data)
-    .select([
-      '_id',
-      'firstName',
-      'lastName',
-      'photos'
-    ])
-    .lean()
-    .exec()
-
   io
     .in(data)
     .emit('event-receive', JSON.stringify({
       type: EventType.EVENT_TYPE_PROFILE_VIEW,
-      data: user
+      data: socket.user
     }))
 }
 
-const onEventConnect = async (io, socket, data) => {
-  const user = await User
-    .findById(data)
-    .select([
-      '_id',
-      'firstName',
-      'lastName',
-      'photos'
-    ])
-    .lean()
-    .exec()
+let io = null
 
+const dispatchEvent = (roomName, type, data) => {
   io
-    .in(data)
+    .in(roomName)
     .emit('event-receive', JSON.stringify({
-      type: EventType.EVENT_TYPE_CONNECT,
-      data: user
+      type,
+      data
     }))
 }
 
 function initSocketServer (server) {
-  const io = socketIo(server)
+  io = socketIo(server)
 
   io.use(authMiddleware)
 
@@ -117,8 +97,6 @@ function initSocketServer (server) {
     socket.on('event', (event) => {
       if (event.type === EventType.EVENT_TYPE_PROFILE_VIEW) {
         return onEventProfileView(io, socket, event.data)
-      } else if (event.type === EventType.EVENT_TYPE_CONNECT) {
-        return onEventConnect(io, socket, event.data)
       }
     })
 
@@ -147,4 +125,7 @@ function initSocketServer (server) {
   })
 }
 
-module.exports = initSocketServer
+module.exports = {
+  initSocketServer,
+  dispatchEvent
+}

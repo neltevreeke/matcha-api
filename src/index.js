@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const http = require('http')
 const config = require('./config')
 const app = require('./app')
-const initSocketServer = require('./socketServer')
+const { initSocketServer } = require('./socketServer')
 
 const startServer = async () => {
   try {
