@@ -72,10 +72,16 @@ module.exports = app => {
           dispatchEvent(req.user._id.toString(), type, newMatch.likedUserId)
         }
       } else {
+        const isMatched = await getIsMatched(sourceUserId, likedUserId)
+
         await Match.deleteOne({
           sourceUserId,
           likedUserId
         })
+
+        if (isMatched) {
+          dispatchEvent(likedUserId, EventType.EVENT_TYPE_UNMATCH, req.user)
+        }
       }
 
       const connectedMatches = await Match
