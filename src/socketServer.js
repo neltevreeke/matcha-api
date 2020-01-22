@@ -61,6 +61,34 @@ const onEventProfileView = async (io, socket, data) => {
     }))
 }
 
+const onEventMessage = async (io, socket, data) => {
+  const {
+    roomId,
+    message,
+    receiver
+  } = data
+
+  RoomMessage.create({
+    room: roomId,
+    createdBy: socket.user,
+    content: message
+  })
+
+  socket.join(roomId)
+
+  io
+    .in(receiver)
+    .emit('event-receive', JSON.stringify({
+      type: EventType.EVENT_TYPE_MESSAGE,
+      data: socket.user,
+      message: {
+        createdBy: socket.user,
+        room: roomId,
+        content: message
+      }
+    }))
+}
+
 let io = null
 
 const dispatchEvent = (roomName, type, data) => {
@@ -97,31 +125,33 @@ function initSocketServer (server) {
     socket.on('event', (event) => {
       if (event.type === EventType.EVENT_TYPE_PROFILE_VIEW) {
         return onEventProfileView(io, socket, event.data)
+      } else if (event.type === EventType.EVENT_TYPE_MESSAGE) {
+        return onEventMessage(io, socket, event.data)
       }
     })
 
-    socket.on('new-message', (message) => {
-      const {
-        roomId,
-        message: content
-      } = message
-
-      RoomMessage.create({
-        room: roomId,
-        createdBy: socket.user,
-        content
-      })
-
-      socket.join(roomId)
-
-      io
-        .in(roomId)
-        .emit('received-new-message', JSON.stringify({
-          createdBy: socket.user,
-          room: roomId,
-          content
-        }))
-    })
+    // socket.on('new-message', (message) => {
+    //   const {
+    //     roomId,
+    //     message: content
+    //   } = message
+    //
+    //   RoomMessage.create({
+    //     room: roomId,
+    //     createdBy: socket.user,
+    //     content
+    //   })
+    //
+    //   socket.join(roomId)
+    //
+    //   io
+    //     .in(roomId)
+    //     .emit('received-new-message', JSON.stringify({
+    //       createdBy: socket.user,
+    //       room: roomId,
+    //       content
+    //     }))
+    // })
   })
 }
 
