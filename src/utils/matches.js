@@ -1,4 +1,5 @@
 const Match = require('../models/Match')
+const Room = require('../models/Room')
 
 const getMatches = async (userId) => {
   const matches = []
@@ -7,6 +8,10 @@ const getMatches = async (userId) => {
     .find({
       sourceUserId: userId
     })
+    .populate([
+      'sourceUserId',
+      'likedUserId'
+    ])
     .lean()
     .exec()
 
@@ -33,7 +38,27 @@ const getIsMatched = async (userId, likedUserId) => {
   return matches.some(m => m.likedUserId.toString() === likedUserId.toString())
 }
 
+const getOrCreateRoom = async (userId, likedUserId) => {
+  const oppositeUserConnection = await Match
+    .findOne({
+      sourceUserId: likedUserId,
+      likedUserId: userId
+    })
+    .populate([
+      'room'
+    ])
+    .lean()
+    .exec()
+
+  if (oppositeUserConnection && oppositeUserConnection.room) {
+    return oppositeUserConnection.room
+  }
+
+  return Room.create({})
+}
+
 module.exports = {
   getMatches,
-  getIsMatched
+  getIsMatched,
+  getOrCreateRoom
 }
