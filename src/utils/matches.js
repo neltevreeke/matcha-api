@@ -35,7 +35,7 @@ const getIsMatched = async (userId, likedUserId) => {
   const matches = await getMatches(userId)
 
   // if something is buggy with notifications, this might be the cause.
-  return matches.some(m => m.likedUserId.toString() === likedUserId.toString())
+  return matches.some(m => m.likedUserId._id.toString() === likedUserId.toString())
 }
 
 const getOrCreateRoom = async (userId, likedUserId) => {
