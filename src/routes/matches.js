@@ -3,6 +3,8 @@ const { dispatchEvent } = require('../socketServer')
 const EventType = require('../constants/EventType')
 const authMiddleware = require('../middleware/auth')
 const Match = require('../models/Match')
+const Room = require('../models/Room')
+const RoomMessage = require('../models/RoomMessage')
 const { getMatches } = require('../utils/matches')
 
 module.exports = app => {
@@ -66,7 +68,10 @@ module.exports = app => {
 
   app.delete('/matches', authMiddleware, async (req, res, next) => {
     const sourceUserId = req.user._id.toString()
-    const { userId } = req.body
+    const {
+      userId,
+      room
+    } = req.body
 
     try {
       const isMatched = await getIsMatched(sourceUserId, userId)
@@ -75,6 +80,21 @@ module.exports = app => {
         sourceUserId,
         likedUserId: userId
       })
+
+      await Match.deleteOne({
+        sourceUserId: userId,
+        likedUserId: sourceUserId
+      })
+
+      if (room) {
+        await Room.deleteOne({
+          _id: room
+        })
+
+        await RoomMessage.deleteMany({
+          room
+        })
+      }
 
       if (isMatched) {
         dispatchEvent(userId, EventType.EVENT_TYPE_UNMATCH, req.user)
