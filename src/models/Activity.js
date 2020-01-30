@@ -18,6 +18,6 @@ const ActivitySchema = new mongoose.Schema({
   }
 })
 
-const Activity = mongoose.model('Room', ActivitySchema)
+const Activity = mongoose.model('Activity', ActivitySchema)
 
 module.exports = Activity
