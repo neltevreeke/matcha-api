@@ -19,6 +19,8 @@ module.exports = app => {
 
     activities = activities.reverse()
 
+    // todo: add pagination
+
     res.json({
       activities
     })
@@ -54,6 +56,8 @@ module.exports = app => {
 
       activities = activities.reverse()
 
+      // todo: add pagination
+
       res.json({
         activities
       })
@@ -62,5 +66,5 @@ module.exports = app => {
       error.statusCode = 409
       return next(error)
     }
-  })
+  }, authMiddleware)
 }
