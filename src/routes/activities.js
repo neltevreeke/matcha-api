@@ -11,7 +11,8 @@ const getActivities = (userId) => {
     })
     .populate([
       'userId',
-      'targetUserId'
+      'targetUserId',
+      'seenBy'
     ])
     .sort({
       createdOn: -1
@@ -27,6 +28,29 @@ module.exports = app => {
     res.json({
       activities: await getActivities(userId)
     })
+  })
+
+  app.post('/activities/seen', authMiddleware, async (req, res, next) => {
+    const userId = req.user._id.toString()
+    const {
+      activityIds
+    } = req.body
+
+    if (!activityIds.length) {
+      return res.sendStatus(200)
+    }
+
+    for (const activityId of activityIds) {
+      await Activity.updateOne({
+        _id: activityId
+      }, {
+        $addToSet: {
+          seenBy: userId
+        }
+      })
+    }
+
+    res.sendStatus(200)
   })
 
   app.post('/activities', authMiddleware, async (req, res, next) => {
