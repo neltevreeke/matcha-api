@@ -1,10 +1,12 @@
 const { getIsMatched, getOrCreateRoom } = require('../utils/matches')
 const { dispatchEvent } = require('../socketServer')
 const EventType = require('../constants/EventType')
+const ActivityType = require('../constants/ActivityType')
 const authMiddleware = require('../middleware/auth')
 const Match = require('../models/Match')
 const Room = require('../models/Room')
 const RoomMessage = require('../models/RoomMessage')
+const Activity = require('../models/Activity')
 const { getMatches } = require('../utils/matches')
 
 module.exports = app => {
@@ -44,6 +46,12 @@ module.exports = app => {
 
       if (isMatched) {
         dispatchEvent(req.user._id.toString(), type, newMatch.likedUserId)
+
+        await Activity.create({
+          userId: req.user._id,
+          targetUserId: newMatch.likedUserId._id,
+          type: ActivityType.ACTIVITY_TYPE_MATCH
+        })
       }
 
       const connectedMatches = await Match
@@ -98,6 +106,12 @@ module.exports = app => {
 
       if (isMatched) {
         dispatchEvent(userId, EventType.EVENT_TYPE_UNMATCH, req.user)
+
+        await Activity.create({
+          userId: req.user._id,
+          targetUserId: userId,
+          type: ActivityType.ACTIVITY_TYPE_UNMATCH
+        })
       }
 
       const connectedMatches = await Match
