@@ -1,28 +1,31 @@
 const Activity = require('../models/Activity')
 const authMiddleware = require('../middleware/auth')
 
+const getActivities = (userId) => {
+  return Activity
+    .find({
+      $or: [
+        { userId: userId },
+        { targetUserId: userId }
+      ]
+    })
+    .populate([
+      'userId',
+      'targetUserId'
+    ])
+    .sort({
+      createdOn: -1
+    })
+    .lean()
+    .exec()
+}
+
 module.exports = app => {
   app.get('/activities', authMiddleware, async (req, res) => {
-    let activities = await Activity
-      .find({
-        $or: [
-          { userId: req.user._id },
-          { targetUserId: req.user._id }
-        ]
-      })
-      .populate([
-        'userId',
-        'targetUserId'
-      ])
-      .lean()
-      .exec()
-
-    activities = activities.reverse()
-
-    // todo: add pagination
+    const userId = req.user._id.toString()
 
     res.json({
-      activities
+      activities: await getActivities(userId)
     })
   })
 
@@ -40,26 +43,8 @@ module.exports = app => {
         type
       })
 
-      let activities = await Activity
-        .find({
-          $or: [
-            { userId },
-            { targetUserId: userId }
-          ]
-        })
-        .populate([
-          'userId',
-          'targetUserId'
-        ])
-        .lean()
-        .exec()
-
-      activities = activities.reverse()
-
-      // todo: add pagination
-
       res.json({
-        activities
+        activities: await getActivities(userId)
       })
     } catch (e) {
       const error = new Error('conflict')
