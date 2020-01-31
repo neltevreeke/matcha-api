@@ -50,7 +50,9 @@ module.exports = app => {
       })
     }
 
-    res.sendStatus(200)
+    res.json({
+      activities: await getActivities(userId)
+    })
   })
 
   app.post('/activities', authMiddleware, async (req, res, next) => {
