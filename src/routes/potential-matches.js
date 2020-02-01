@@ -3,11 +3,30 @@ const User = require('../models/User')
 const GenderPreference = require('../constants/GenderPreference')
 const Gender = require('../constants/Gender')
 
+const getSortBy = key => (a, b) => {
+  if (a[key] > b[key]) return -1
+  if (b[key] > a[key]) return 1
+
+  return 0
+}
+
+const getSortedMatches = (matches, sortBy) => {
+  if (sortBy === 'age') {
+    return matches.sort(getSortBy('age'))
+  } else if (sortBy === 'fame-rating') {
+    return matches.sort(getSortBy('fameRating'))
+  }
+
+  return matches
+}
+
 module.exports = app => {
   app.get('/potential-matches', authMiddleware, async (req, res) => {
     // todo: Update query and userModel
     // use:
     // matching interest tags (minTags, maxTags)
+
+    const { sortBy } = req.query
 
     const {
       minAge,
@@ -119,7 +138,7 @@ module.exports = app => {
     })
 
     res.json({
-      filteredPotentialMatches
+      filteredPotentialMatches: getSortedMatches(filteredPotentialMatches, sortBy)
     })
   })
 }

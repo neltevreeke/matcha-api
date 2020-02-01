@@ -15,7 +15,11 @@ const ActivitySchema = new mongoose.Schema({
   createdOn: {
     type: Date,
     default: Date.now
-  }
+  },
+  seenBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Users'
+  }]
 })
 
 const Activity = mongoose.model('Activity', ActivitySchema)

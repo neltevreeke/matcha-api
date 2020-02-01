@@ -1,28 +1,57 @@
 const Activity = require('../models/Activity')
 const authMiddleware = require('../middleware/auth')
 
+const getActivities = (userId) => {
+  return Activity
+    .find({
+      $or: [
+        { userId: userId },
+        { targetUserId: userId }
+      ]
+    })
+    .populate([
+      'userId',
+      'targetUserId',
+      'seenBy'
+    ])
+    .sort({
+      createdOn: -1
+    })
+    .lean()
+    .exec()
+}
+
 module.exports = app => {
   app.get('/activities', authMiddleware, async (req, res) => {
-    let activities = await Activity
-      .find({
-        $or: [
-          { userId: req.user._id },
-          { targetUserId: req.user._id }
-        ]
-      })
-      .populate([
-        'userId',
-        'targetUserId'
-      ])
-      .lean()
-      .exec()
-
-    activities = activities.reverse()
-
-    // todo: add pagination
+    const userId = req.user._id.toString()
 
     res.json({
-      activities
+      activities: await getActivities(userId)
+    })
+  })
+
+  app.post('/activities/seen', authMiddleware, async (req, res, next) => {
+    const userId = req.user._id.toString()
+    const {
+      activityIds
+    } = req.body
+
+    if (!activityIds.length) {
+      return res.sendStatus(200)
+    }
+
+    for (const activityId of activityIds) {
+      await Activity.updateOne({
+        _id: activityId
+      }, {
+        $addToSet: {
+          seenBy: userId
+        }
+      })
+    }
+
+    res.json({
+      activities: await getActivities(userId)
     })
   })
 
@@ -40,26 +69,8 @@ module.exports = app => {
         type
       })
 
-      let activities = await Activity
-        .find({
-          $or: [
-            { userId },
-            { targetUserId: userId }
-          ]
-        })
-        .populate([
-          'userId',
-          'targetUserId'
-        ])
-        .lean()
-        .exec()
-
-      activities = activities.reverse()
-
-      // todo: add pagination
-
       res.json({
-        activities
+        activities: await getActivities(userId)
       })
     } catch (e) {
       const error = new Error('conflict')
