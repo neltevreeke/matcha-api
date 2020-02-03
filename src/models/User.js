@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
   },
   password: String,
   biography: String,
+  lastSeen: {
+    type: Date,
+    default: Date.now
+  },
   loc: {
     type: {
       type: String,
@@ -58,7 +62,8 @@ const userSchema = new mongoose.Schema({
   maxTags: Number,
   genderPreference: {
     type: String,
-    enum: Object.values(GenderPreference)
+    enum: Object.values(GenderPreference),
+    default: GenderPreference.BISEXUAL
   }
 })
 

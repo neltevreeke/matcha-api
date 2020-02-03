@@ -15,7 +15,9 @@ const users = [{
   }, {
     label: 'Music Production'
   }],
+  lastSeen: '2020-02-03T13:36:21.679Z',
   genderPreference: GenderPreference.FEMALE,
+  fameRating: 10,
   loc: {
     type: 'Point',
     coordinates: [
@@ -36,12 +38,13 @@ const users = [{
   }, {
     cloudinaryPublicId: 'user-photos/q2rmpri95moli67u6rgn'
   }],
+  lastSeen: '2020-02-03T13:20:16.679Z',
   interests: [{
     label: 'Make-up'
   }, {
     label: 'music'
   }],
-  genderPreference: GenderPreference.MALE,
+  fameRating: 24,
   loc: {
     type: 'Point',
     coordinates: [
@@ -55,6 +58,7 @@ const users = [{
   password: 'test',
   firstName: 'Gay',
   lastName: 'Male',
+  lastSeen: '2020-01-03T12:36:21.679Z',
   age: 53,
   gender: Gender.MALE,
   biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
@@ -66,6 +70,7 @@ const users = [{
     label: 'Programming'
   }],
   genderPreference: GenderPreference.MALE,
+  fameRating: 70,
   loc: {
     type: 'Point',
     coordinates: [
@@ -78,6 +83,7 @@ const users = [{
   password: 'test',
   firstName: 'Gay',
   lastName: 'Woman',
+  lastSeen: '2020-02-01T10:36:21.679Z',
   age: 53,
   gender: Gender.FEMALE,
   biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
@@ -89,6 +95,7 @@ const users = [{
     label: 'test'
   }],
   genderPreference: GenderPreference.FEMALE,
+  fameRating: 20,
   loc: {
     type: 'Point',
     coordinates: [
@@ -102,6 +109,7 @@ const users = [{
   password: 'test',
   firstName: 'Hetero',
   lastName: 'Guy',
+  lastSeen: '2020-01-03T13:36:21.679Z',
   age: 70,
   gender: Gender.MALE,
   biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
@@ -113,6 +121,7 @@ const users = [{
     label: 'testest'
   }],
   genderPreference: GenderPreference.FEMALE,
+  fameRating: 10,
   loc: {
     type: 'Point',
     coordinates: [
@@ -126,6 +135,7 @@ const users = [{
   password: 'test',
   firstName: 'Woman',
   lastName: 'isBi',
+  lastSeen: '2020-02-03T09:36:21.679Z',
   age: 53,
   gender: Gender.FEMALE,
   biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
@@ -150,6 +160,7 @@ const users = [{
   password: 'test',
   firstName: 'Man',
   lastName: 'isBi',
+  lastSeen: '2020-02-03T11:36:21.679Z',
   age: 53,
   gender: Gender.MALE,
   biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
@@ -161,6 +172,7 @@ const users = [{
     label: 'bisexual'
   }],
   genderPreference: GenderPreference.BISEXUAL,
+  fameRating: 56,
   loc: {
     type: 'Point',
     coordinates: [

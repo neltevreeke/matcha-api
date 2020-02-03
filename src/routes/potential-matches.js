@@ -124,7 +124,8 @@ module.exports = app => {
           'fameRating',
           'genderPreference',
           'gender',
-          'loc'
+          'loc',
+          'lastSeen'
         ])
         .lean()
         .exec()

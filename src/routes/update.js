@@ -12,18 +12,7 @@ module.exports = app => {
         delete req.body.deletedPhoto.cloudinaryPublicId
       }
 
-      if (req.body.loc) {
-        const locationUpdateQuery = {
-          loc: {
-            type: 'Point',
-            coordinates: req.body.loc
-          }
-        }
-
-        user = await User.findByIdAndUpdate(req.user._id.toString(), locationUpdateQuery, { new: true }).exec()
-      } else {
-        user = await User.findByIdAndUpdate(req.user._id.toString(), req.body, { new: true }).exec()
-      }
+      user = await User.findByIdAndUpdate(req.user._id.toString(), req.body, { new: true }).exec()
 
       const userObject = user.toObject()
 
