@@ -21,7 +21,7 @@ const getSortedMatches = (matches, sortBy) => {
 }
 
 module.exports = app => {
-  app.get('/potential-matches', authMiddleware, async (req, res) => {
+  app.get('/potential-matches', authMiddleware, async (req, res, next) => {
     // todo: Update query and userModel
     // use:
     // matching interest tags (minTags, maxTags)
@@ -64,7 +64,7 @@ module.exports = app => {
       loc: {
         $geoWithin: {
           $centerSphere: [
-            [loc[0], loc[1]],
+            [loc.coordinates[0], loc.coordinates[1]],
             maxDistance / 6378.1
           ]
         }
@@ -73,36 +73,43 @@ module.exports = app => {
 
     const reqUserId = req.user._id.toString()
 
-    const potentialMatches = await User
-      .find({
-        _id: {
-          $ne: reqUserId
-        },
-        age: {
-          $lte: maxAge,
-          $gte: minAge
-        },
-        fameRating: {
-          $lte: maxFameRating,
-          $gte: minFameRating
-        },
-        ...genderQuery,
-        ...locationQuery
-      })
-      .select([
-        '_id',
-        'firstName',
-        'lastName',
-        'age',
-        'biography',
-        'photos',
-        'interests',
-        'fameRating',
-        'genderPreference',
-        'gender'
-      ])
-      .lean()
-      .exec()
+    let potentialMatches
+    try {
+      potentialMatches = await User
+        .find({
+          _id: {
+            $ne: reqUserId
+          },
+          age: {
+            $lte: maxAge,
+            $gte: minAge
+          },
+          fameRating: {
+            $lte: maxFameRating,
+            $gte: minFameRating
+          },
+          ...genderQuery,
+          ...locationQuery
+        })
+        .select([
+          '_id',
+          'firstName',
+          'lastName',
+          'age',
+          'biography',
+          'photos',
+          'interests',
+          'fameRating',
+          'genderPreference',
+          'gender'
+        ])
+        .lean()
+        .exec()
+    } catch (e) {
+      const error = new Error('conflict')
+      error.statusCode = 404
+      return next(error)
+    }
 
     const filteredPotentialMatches = potentialMatches.filter(match => {
       const matchIsBisexual = match.genderPreference === GenderPreference.BISEXUAL

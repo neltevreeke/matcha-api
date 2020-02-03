@@ -40,7 +40,10 @@ const userSchema = new mongoose.Schema({
       default: 'Point',
       required: true
     },
-    coordinates: [Number]
+    coordinates: {
+      type: [Number],
+      required: true
+    }
   },
   interests: [interestSchema],
   photos: [photoSchema],
@@ -58,6 +61,8 @@ const userSchema = new mongoose.Schema({
     enum: Object.values(GenderPreference)
   }
 })
+
+userSchema.index({ loc: '2dsphere' })
 
 userSchema.pre('save', async function (next) {
   const user = this
