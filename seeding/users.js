@@ -17,7 +17,11 @@ const users = [{
   }],
   genderPreference: GenderPreference.FEMALE,
   loc: {
-    coordinates: [52.374267, 4.915762]
+    type: 'Point',
+    coordinates: [
+      52.374323699999997928,
+      4.915795099999999529
+    ]
   }
 }, {
   email: 'test@test.nl',
@@ -39,7 +43,11 @@ const users = [{
   }],
   genderPreference: GenderPreference.MALE,
   loc: {
-    coordinates: [52.370216, 4.895168]
+    type: 'Point',
+    coordinates: [
+      52.370216,
+      4.895168
+    ]
   }
   // amsterdam
 }, {
@@ -59,7 +67,11 @@ const users = [{
   }],
   genderPreference: GenderPreference.MALE,
   loc: {
-    coordinates: [51.350784, 5.264702]
+    type: 'Point',
+    coordinates: [
+      51.350784,
+      5.264702
+    ]
   }
 }, {
   email: 'lol@lol.nl',
@@ -78,7 +90,11 @@ const users = [{
   }],
   genderPreference: GenderPreference.FEMALE,
   loc: {
-    coordinates: [52.350784, 5.264702]
+    type: 'Point',
+    coordinates: [
+      52.350784,
+      5.264702
+    ]
   }
   // almere
 }, {
@@ -98,7 +114,11 @@ const users = [{
   }],
   genderPreference: GenderPreference.FEMALE,
   loc: {
-    coordinates: [52.292790, 4.907460]
+    type: 'Point',
+    coordinates: [
+      52.292790,
+      4.907460
+    ]
   }
   // Oudekerk aan de amstel
 }, {
@@ -118,7 +138,11 @@ const users = [{
   }],
   genderPreference: GenderPreference.BISEXUAL,
   loc: {
-    coordinates: [52.077930, 5.125520]
+    type: 'Point',
+    coordinates: [
+      52.077930,
+      5.125520
+    ]
   }
   // utrecht
 }, {
@@ -138,7 +162,11 @@ const users = [{
   }],
   genderPreference: GenderPreference.BISEXUAL,
   loc: {
-    coordinates: [51.957270, 5.220610]
+    type: 'Point',
+    coordinates: [
+      51.957270,
+      5.220610
+    ]
   }
   // culemborg
 }]

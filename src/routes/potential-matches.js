@@ -1,20 +1,40 @@
 const authMiddleware = require('../middleware/auth')
+const geolib = require('geolib')
 const User = require('../models/User')
 const GenderPreference = require('../constants/GenderPreference')
 const Gender = require('../constants/Gender')
 
+const getDistanceFromUser = (userLoc, matches) => {
+  const {
+    coordinates
+  } = userLoc
+
+  matches.map(match => {
+    const distanceFromUser = geolib.getDistance(coordinates, match.loc.coordinates)
+    match.distanceFromUser = distanceFromUser
+
+    return match
+  })
+
+  return matches
+}
+
 const getSortBy = key => (a, b) => {
-  if (a[key] > b[key]) return -1
-  if (b[key] > a[key]) return 1
+  if (a[key] > b[key]) return 1
+  if (b[key] > a[key]) return -1
 
   return 0
 }
 
-const getSortedMatches = (matches, sortBy) => {
+const getSortedMatches = (userLoc, matches, sortBy) => {
   if (sortBy === 'age') {
     return matches.sort(getSortBy('age'))
   } else if (sortBy === 'fame-rating') {
     return matches.sort(getSortBy('fameRating'))
+  } else if (sortBy === 'location') {
+    const matchesDistanceFromYou = getDistanceFromUser(userLoc, matches)
+
+    return matchesDistanceFromYou.sort(getSortBy('distanceFromUser'))
   }
 
   return matches
@@ -101,7 +121,8 @@ module.exports = app => {
           'interests',
           'fameRating',
           'genderPreference',
-          'gender'
+          'gender',
+          'loc'
         ])
         .lean()
         .exec()
@@ -145,7 +166,7 @@ module.exports = app => {
     })
 
     res.json({
-      filteredPotentialMatches: getSortedMatches(filteredPotentialMatches, sortBy)
+      filteredPotentialMatches: getSortedMatches(loc, filteredPotentialMatches, sortBy)
     })
   })
 }
