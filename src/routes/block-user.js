@@ -38,8 +38,8 @@ module.exports = app => {
         blockedUserId
       })
     } catch (e) {
-      const error = new Error('internal-server-error')
-      error.statusCode = 500
+      const error = new Error('conflict')
+      error.statusCode = 409
       return next(error)
     }
 
