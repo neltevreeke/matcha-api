@@ -3,6 +3,7 @@ const geolib = require('geolib')
 const User = require('../models/User')
 const GenderPreference = require('../constants/GenderPreference')
 const Gender = require('../constants/Gender')
+const { getBlockedUserIds } = require('../utils/matches')
 
 const getDistanceFromUser = (userLoc, matches) => {
   const {
@@ -62,6 +63,8 @@ module.exports = app => {
       loc
     } = req.user
 
+    const blockedUserIds = await getBlockedUserIds(req.user._id)
+
     let genderQuery = {}
 
     if (genderPreference === GenderPreference.MALE) {
@@ -100,7 +103,8 @@ module.exports = app => {
       potentialMatches = await User
         .find({
           _id: {
-            $ne: reqUserId
+            $ne: reqUserId,
+            $nin: blockedUserIds
           },
           age: {
             $lte: maxAge,

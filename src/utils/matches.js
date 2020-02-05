@@ -1,5 +1,23 @@
 const Match = require('../models/Match')
 const Room = require('../models/Room')
+const Blocked = require('../models/BlockedUser')
+
+const getBlockedUserIds = async (userId) => {
+  let blockedUserIds = await Blocked.find({
+    userId
+  })
+    .select([
+      'blockedUserId'
+    ])
+    .lean()
+    .exec()
+
+  blockedUserIds = blockedUserIds.map((blockedUser) => {
+    return blockedUser.blockedUserId
+  })
+
+  return blockedUserIds
+}
 
 const getMatches = async (userId) => {
   const matches = []
@@ -60,5 +78,6 @@ const getOrCreateRoom = async (userId, likedUserId) => {
 module.exports = {
   getMatches,
   getIsMatched,
-  getOrCreateRoom
+  getOrCreateRoom,
+  getBlockedUserIds
 }
