@@ -3,7 +3,10 @@ const geolib = require('geolib')
 const User = require('../models/User')
 const GenderPreference = require('../constants/GenderPreference')
 const Gender = require('../constants/Gender')
-const { getBlockedUserIds } = require('../utils/matches')
+const {
+  getBlockedUserIds
+  // whoBlockedMeIds
+} = require('../utils/matches')
 
 const getDistanceFromUser = (userLoc, matches) => {
   const {
@@ -64,6 +67,7 @@ module.exports = app => {
     } = req.user
 
     const blockedUserIds = await getBlockedUserIds(req.user._id)
+    // const blockerIds = await whoBlockedMeIds(req.user._id)
 
     let genderQuery = {}
 

@@ -19,6 +19,23 @@ const getBlockedUserIds = async (userId) => {
   return blockedUserIds
 }
 
+const whoBlockedMeIds = async (userId) => {
+  let blockerIds = await Blocked.find({
+    blockedUserId: userId
+  })
+    .select([
+      'userId'
+    ])
+    .lean()
+    .exec()
+
+  blockerIds = blockerIds.map((blocker) => {
+    return blocker.userId
+  })
+
+  return blockerIds
+}
+
 const getMatches = async (userId) => {
   const matches = []
 
@@ -79,5 +96,6 @@ module.exports = {
   getMatches,
   getIsMatched,
   getOrCreateRoom,
-  getBlockedUserIds
+  getBlockedUserIds,
+  whoBlockedMeIds
 }
