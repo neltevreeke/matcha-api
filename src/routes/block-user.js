@@ -56,7 +56,7 @@ module.exports = app => {
     } = req.body
 
     try {
-      await Blocked.delete({
+      await Blocked.deleteOne({
         userId,
         blockedUserId
       })
