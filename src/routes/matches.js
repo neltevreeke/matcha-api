@@ -32,10 +32,13 @@ module.exports = app => {
       })
 
       newMatch = await newMatch
-        .populate([
-          'sourceUserId',
-          'likedUserId'
-        ])
+        .populate([{
+          path: 'sourceUserId',
+          select: '-password'
+        }, {
+          path: 'likedUserId',
+          select: '-password'
+        }])
         .execPopulate()
 
       const isMatched = await getIsMatched(sourceUserId, userId)
