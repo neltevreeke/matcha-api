@@ -51,8 +51,9 @@ const users = [{
       52.370216,
       4.895168
     ]
-  }
+  },
   // amsterdam
+  amountReports: 0
 }, {
   email: 'gay@male.nl',
   password: 'test',
@@ -77,7 +78,8 @@ const users = [{
       51.350784,
       5.264702
     ]
-  }
+  },
+  amountReports: 0
 }, {
   email: 'lol@lol.nl',
   password: 'test',
@@ -102,8 +104,9 @@ const users = [{
       52.350784,
       5.264702
     ]
-  }
+  },
   // almere
+  amountReports: 0
 }, {
   email: 'hetero@guy.nl',
   password: 'test',
@@ -128,8 +131,9 @@ const users = [{
       52.292790,
       4.907460
     ]
-  }
+  },
   // Oudekerk aan de amstel
+  amountReports: 0
 }, {
   email: 'bi@woman.nl',
   password: 'test',
@@ -153,8 +157,9 @@ const users = [{
       52.077930,
       5.125520
     ]
-  }
+  },
   // utrecht
+  amountReports: 0
 }, {
   email: 'woman@woman.nl',
   password: 'test',
@@ -179,8 +184,9 @@ const users = [{
       51.957270,
       5.220610
     ]
-  }
+  },
   // culemborg
+  amountReports: 0
 }]
 
 const seed = async () => {

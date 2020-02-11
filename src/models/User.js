@@ -64,7 +64,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: Object.values(GenderPreference),
     default: GenderPreference.BISEXUAL
-  }
+  },
+  amountReports: 0
 })
 
 userSchema.index({ loc: '2dsphere' })
