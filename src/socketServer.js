@@ -61,6 +61,24 @@ const onEventProfileView = async (io, socket, data) => {
     }))
 }
 
+const onEventBlock = async (io, socket, data) => {
+  io
+    .in(data)
+    .emit('event-receive', JSON.stringify({
+      type: EventType.EVENT_TYPE_BLOCK,
+      data: socket.user
+    }))
+}
+
+const onEventUnblock = async (io, socket, data) => {
+  io
+    .in(data)
+    .emit('event-receive', JSON.stringify({
+      type: EventType.EVENT_TYPE_UNBLOCK,
+      data: socket.user
+    }))
+}
+
 const onEventMessage = async (io, socket, data) => {
   const {
     roomId,
@@ -127,6 +145,10 @@ function initSocketServer (server) {
         return onEventProfileView(io, socket, event.data)
       } else if (event.type === EventType.EVENT_TYPE_MESSAGE) {
         return onEventMessage(io, socket, event.data)
+      } else if (event.type === EventType.EVENT_TYPE_BLOCK) {
+        return onEventBlock(io, socket, event.data)
+      } else if (event.type === EventType.EVENT_TYPE_UNBLOCK) {
+        return onEventUnblock(io, socket, event.data)
       }
     })
   })

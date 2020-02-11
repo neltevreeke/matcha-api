@@ -4,8 +4,8 @@ const User = require('../models/User')
 const GenderPreference = require('../constants/GenderPreference')
 const Gender = require('../constants/Gender')
 const {
-  getBlockedUserIds
-  // whoBlockedMeIds
+  getBlockedUserIds,
+  whoBlockedMeIds
 } = require('../utils/matches')
 
 const getDistanceFromUser = (userLoc, matches) => {
@@ -67,7 +67,7 @@ module.exports = app => {
     } = req.user
 
     const blockedUserIds = await getBlockedUserIds(req.user._id)
-    // const blockerIds = await whoBlockedMeIds(req.user._id)
+    const blockerIds = await whoBlockedMeIds(req.user._id)
 
     let genderQuery = {}
 
@@ -108,7 +108,7 @@ module.exports = app => {
         .find({
           _id: {
             $ne: reqUserId,
-            $nin: blockedUserIds
+            $nin: [...blockedUserIds, ...blockerIds]
           },
           age: {
             $lte: maxAge,
