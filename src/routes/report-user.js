@@ -6,10 +6,13 @@ const getReportedUsers = (userId) => {
   return Reported.find({
     userId
   })
-    .populate([
-      'userId',
-      'reportedUserId'
-    ])
+    .populate([{
+      path: 'userId',
+      select: '-password'
+    }, {
+      path: 'reportedUserId',
+      select: '-password'
+    }])
     .lean()
     .exec()
 }

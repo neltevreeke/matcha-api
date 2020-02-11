@@ -5,10 +5,13 @@ const getBlockedUsers = (userId) => {
   return Blocked.find({
     userId
   })
-    .populate([
-      'userId',
-      'blockedUserId'
-    ])
+    .populate([{
+      path: 'userId',
+      select: '-password'
+    }, {
+      path: 'blockedUserId',
+      select: '-password'
+    }])
     .sort({
       blockedOn: -1
     })

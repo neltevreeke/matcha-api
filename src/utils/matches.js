@@ -43,10 +43,13 @@ const getMatches = async (userId) => {
     .find({
       sourceUserId: userId
     })
-    .populate([
-      'sourceUserId',
-      'likedUserId'
-    ])
+    .populate([{
+      path: 'sourceUserId',
+      select: '-password'
+    }, {
+      path: 'likedUserId',
+      select: '-password'
+    }])
     .lean()
     .exec()
 

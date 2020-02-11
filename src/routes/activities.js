@@ -9,11 +9,16 @@ const getActivities = (userId) => {
         { targetUserId: userId }
       ]
     })
-    .populate([
-      'userId',
-      'targetUserId',
-      'seenBy'
-    ])
+    .populate([{
+      path: 'userId',
+      select: '-password'
+    }, {
+      path: 'targetUserId',
+      select: '-password'
+    }, {
+      path: 'seenBy',
+      select: '-password'
+    }])
     .sort({
       createdOn: -1
     })
