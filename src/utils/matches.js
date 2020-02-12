@@ -1,6 +1,7 @@
 const Match = require('../models/Match')
 const Room = require('../models/Room')
 const Blocked = require('../models/BlockedUser')
+const geolib = require('geolib')
 
 const getBlockedUserIds = async (userId) => {
   let blockedUserIds = await Blocked.find({
@@ -95,10 +96,26 @@ const getOrCreateRoom = async (userId, likedUserId) => {
   return Room.create({})
 }
 
+const getDistanceFromUser = (userLoc, matches) => {
+  const {
+    coordinates
+  } = userLoc
+
+  matches.map(match => {
+    const distanceFromUser = geolib.getDistance(coordinates, match.loc.coordinates)
+    match.distanceFromUser = distanceFromUser
+
+    return match
+  })
+
+  return matches
+}
+
 module.exports = {
   getMatches,
   getIsMatched,
   getOrCreateRoom,
   getBlockedUserIds,
-  whoBlockedMeIds
+  whoBlockedMeIds,
+  getDistanceFromUser
 }

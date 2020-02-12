@@ -1,27 +1,12 @@
 const authMiddleware = require('../middleware/auth')
-const geolib = require('geolib')
 const User = require('../models/User')
 const GenderPreference = require('../constants/GenderPreference')
 const Gender = require('../constants/Gender')
 const {
   getBlockedUserIds,
-  whoBlockedMeIds
+  whoBlockedMeIds,
+  getDistanceFromUser
 } = require('../utils/matches')
-
-const getDistanceFromUser = (userLoc, matches) => {
-  const {
-    coordinates
-  } = userLoc
-
-  matches.map(match => {
-    const distanceFromUser = geolib.getDistance(coordinates, match.loc.coordinates)
-    match.distanceFromUser = distanceFromUser
-
-    return match
-  })
-
-  return matches
-}
 
 // lowest value first
 // example when sorted by age: [youngest, ..., oldest]
@@ -41,6 +26,11 @@ const getSortedMatches = (userLoc, matches, sortBy) => {
     const matchesDistanceFromYou = getDistanceFromUser(userLoc, matches)
 
     return matchesDistanceFromYou.sort(getSortBy('distanceFromUser'))
+  } else if (sortBy === 'tags-in-common') {
+    // todo: calculate amount of tags in common
+    // const matchesTagsInCommon = getTagsInCommon()
+
+    return matches.sort(getSortBy('interests'))
   }
 
   return matches
@@ -58,6 +48,7 @@ module.exports = app => {
       minAge,
       maxAge,
       maxDistance,
+      // todo: calculate amount of tags in common, if between min and max return otherwise filter out user
       // minTags,
       // maxTags,
       minFameRating,

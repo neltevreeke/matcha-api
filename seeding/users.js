@@ -40,9 +40,11 @@ const users = [{
   }],
   lastSeen: '2020-02-03T13:20:16.679Z',
   interests: [{
-    label: 'Make-up'
+    label: 'Golf'
   }, {
-    label: 'music'
+    label: 'Music Production'
+  }, {
+    label: 'Airsoft'
   }],
   fameRating: 24,
   loc: {
@@ -154,11 +156,15 @@ const users = [{
   gender: Gender.FEMALE,
   biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
   interests: [{
-    label: 'males'
+    label: 'Golf'
   }, {
-    label: 'females'
+    label: 'Music Production'
   }, {
-    label: 'bisexual'
+    label: 'Airsoft'
+  }, {
+    label: 'Airbrushing'
+  }, {
+    label: 'BMX'
   }],
   genderPreference: GenderPreference.BISEXUAL,
   loc: {
