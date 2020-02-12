@@ -65,6 +65,40 @@ const userSchema = new mongoose.Schema({
     enum: Object.values(GenderPreference),
     default: GenderPreference.BISEXUAL
   },
+  emailNotifications: {
+    connect: {
+      type: Boolean,
+      default: true
+    },
+    disconnect: {
+      type: Boolean,
+      default: true
+    },
+    match: {
+      type: Boolean,
+      default: true
+    },
+    unmatch: {
+      type: Boolean,
+      default: true
+    },
+    block: {
+      type: Boolean,
+      default: true
+    },
+    unblock: {
+      type: Boolean,
+      default: true
+    },
+    profileView: {
+      type: Boolean,
+      default: true
+    },
+    report: {
+      type: Boolean,
+      default: true
+    }
+  },
   amountReports: 0
 })
 

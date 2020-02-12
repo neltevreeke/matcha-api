@@ -53,7 +53,17 @@ const users = [{
     ]
   },
   // amsterdam
-  amountReports: 0
+  amountReports: 0,
+  emailNotifications: {
+    connect: true,
+    disconnect: true,
+    match: true,
+    unmatch: true,
+    block: true,
+    unblock: true,
+    profileView: true,
+    report: true
+  }
 }, {
   email: 'gay@male.nl',
   password: 'test',
