@@ -76,6 +76,7 @@ const sendEmail = async (user, targetUserId, type) => {
   let subject
   let html
   let recipient
+  let wantsEmail
 
   const targetUser = await User.findOne({
     _id: targetUserId
@@ -92,41 +93,49 @@ const sendEmail = async (user, targetUserId, type) => {
     recipient = targetUser.email
 
     html = getEmailProfileView(user, targetUser)
+    wantsEmail = targetUser.emailNotifications.profileView
   } else if (type === EventType.EVENT_TYPE_REPORT) {
     subject = 'Matcha | someone reported your account as fake!'
     recipient = targetUser.email
 
     html = getEmailReport(targetUser)
+    wantsEmail = targetUser.emailNotifications.report
   } else if (type === EventType.EVENT_TYPE_CONNECT) {
     subject = 'Matcha | someone connected you!'
     recipient = targetUser.email
 
     html = getEmailConnect(user, targetUser)
+    wantsEmail = targetUser.emailNotifications.connect
   } else if (type === EventType.EVENT_TYPE_DISCONNECT) {
     subject = 'Matcha | someone disconnected you!'
     recipient = targetUser.email
 
     html = getEmailDisconnect(user, targetUser)
+    wantsEmail = targetUser.emailNotifications.disconnect
   } else if (type === EventType.EVENT_TYPE_MATCH) {
     subject = 'Matcha | you have a new match!'
     recipient = targetUser.email
 
     html = getEmailMatch(user, targetUser)
+    wantsEmail = targetUser.emailNotifications.match
   } else if (type === EventType.EVENT_TYPE_UNMATCH) {
     subject = 'Matcha | you have been unmatched!'
     recipient = targetUser.email
 
     html = getEmailUnmatch(user, targetUser)
+    wantsEmail = targetUser.emailNotifications.unmatch
   } else if (type === EventType.EVENT_TYPE_BLOCK) {
     subject = 'Matcha | you have blocked someone!'
     recipient = user.email
 
     html = getEmailBlock(user, targetUser)
+    wantsEmail = user.emailNotifications.block
   } else if (type === EventType.EVENT_TYPE_UNBLOCK) {
     subject = 'Matcha | you have unblocked someone!'
     recipient = user.email
 
     html = getEmailUnblock(user, targetUser)
+    wantsEmail = user.emailNotifications.unblock
   }
 
   const msg = {
@@ -136,7 +145,11 @@ const sendEmail = async (user, targetUserId, type) => {
     html
   }
 
-  sgMail.send(msg)
+  if (wantsEmail) {
+    sgMail.send(msg)
+  } else {
+    return null
+  }
 }
 
 module.exports = sendEmail

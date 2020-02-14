@@ -94,6 +94,10 @@ module.exports = app => {
     try {
       const isMatched = await getIsMatched(sourceUserId, userId)
 
+      if (!isMatched) {
+        sendEmail(req.user, userId, EventType.EVENT_TYPE_DISCONNECT)
+      }
+
       await Match.deleteOne({
         sourceUserId,
         likedUserId: userId
@@ -113,8 +117,6 @@ module.exports = app => {
           room
         })
       }
-
-      sendEmail(req.user, userId, EventType.EVENT_TYPE_DISCONNECT)
 
       if (isMatched) {
         dispatchEvent(userId, EventType.EVENT_TYPE_UNMATCH, req.user)

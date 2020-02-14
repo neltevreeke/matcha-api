@@ -149,12 +149,8 @@ function initSocketServer (server) {
       } else if (event.type === EventType.EVENT_TYPE_MESSAGE) {
         return onEventMessage(io, socket, event.data)
       } else if (event.type === EventType.EVENT_TYPE_BLOCK) {
-        sendEmail(socket.user, event.data, EventType.EVENT_TYPE_BLOCK)
-
         return onEventBlock(io, socket, event.data)
       } else if (event.type === EventType.EVENT_TYPE_UNBLOCK) {
-        sendEmail(socket.user, event.data, EventType.EVENT_TYPE_UNBLOCK)
-
         return onEventUnblock(io, socket, event.data)
       }
     })

@@ -1,5 +1,7 @@
 const authMiddleware = require('../middleware/auth')
 const Blocked = require('../models/BlockedUser')
+const EventType = require('../constants/EventType')
+const sendEmail = require('../utils/sendgrid')
 
 const getBlockedUsers = (userId) => {
   return Blocked.find({
@@ -40,6 +42,8 @@ module.exports = app => {
         userId,
         blockedUserId
       })
+
+      await sendEmail(req.user, blockedUserId, EventType.EVENT_TYPE_BLOCK)
     } catch (e) {
       const error = new Error('conflict')
       error.statusCode = 409
@@ -63,6 +67,8 @@ module.exports = app => {
         userId,
         blockedUserId
       })
+
+      await sendEmail(req.user, blockedUserId, EventType.EVENT_TYPE_UNBLOCK)
     } catch (e) {
       const error = new Error('internal-server-error')
       error.statusCode = 500
