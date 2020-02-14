@@ -35,9 +35,6 @@ const getSortedMatches = (userInterests, userLoc, matches, sortBy) => {
 
     return matches.sort(getSortBy('distanceFromUser'))
   } else if (sortBy === 'tags-in-common') {
-    // todo: calculate amount of tags in common
-    // setTagsInCommon(userInterests, matches)
-
     return matches.sort(getSortBy('amountCommonInterests'))
   }
 
@@ -46,17 +43,12 @@ const getSortedMatches = (userInterests, userLoc, matches, sortBy) => {
 
 module.exports = app => {
   app.get('/potential-matches', authMiddleware, async (req, res, next) => {
-    // todo: Update query and userModel
-    // use:
-    // matching interest tags (minTags, maxTags)
-
     const { sortBy } = req.query
 
     const {
       minAge,
       maxAge,
       maxDistance,
-      // todo: calculate amount of tags in common, if between min and max return otherwise filter out user
       minTags,
       maxTags,
       minFameRating,

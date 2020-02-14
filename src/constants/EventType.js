@@ -5,6 +5,8 @@ const EVENT_TYPE_PROFILE_VIEW = 'profile-view'
 const EVENT_TYPE_CONNECT = 'connect'
 const EVENT_TYPE_BLOCK = 'block'
 const EVENT_TYPE_UNBLOCK = 'unblock'
+const EVENT_TYPE_REPORT = 'report'
+const EVENT_TYPE_DISCONNECT = 'disconnect'
 
 module.exports = {
   EVENT_TYPE_MATCH,
@@ -13,5 +15,7 @@ module.exports = {
   EVENT_TYPE_PROFILE_VIEW,
   EVENT_TYPE_CONNECT,
   EVENT_TYPE_BLOCK,
-  EVENT_TYPE_UNBLOCK
+  EVENT_TYPE_UNBLOCK,
+  EVENT_TYPE_REPORT,
+  EVENT_TYPE_DISCONNECT
 }

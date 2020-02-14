@@ -3,6 +3,7 @@ const { getDecodedToken } = require('./utils/token')
 const User = require('./models/User')
 const RoomMessage = require('./models/RoomMessage')
 const EventType = require('./constants/EventType')
+const sendEmail = require('./utils/sendgrid')
 
 let onlineUsers = []
 
@@ -142,12 +143,18 @@ function initSocketServer (server) {
 
     socket.on('event', (event) => {
       if (event.type === EventType.EVENT_TYPE_PROFILE_VIEW) {
+        sendEmail(socket.user, event.data, EventType.EVENT_TYPE_PROFILE_VIEW)
+
         return onEventProfileView(io, socket, event.data)
       } else if (event.type === EventType.EVENT_TYPE_MESSAGE) {
         return onEventMessage(io, socket, event.data)
       } else if (event.type === EventType.EVENT_TYPE_BLOCK) {
+        sendEmail(socket.user, event.data, EventType.EVENT_TYPE_BLOCK)
+
         return onEventBlock(io, socket, event.data)
       } else if (event.type === EventType.EVENT_TYPE_UNBLOCK) {
+        sendEmail(socket.user, event.data, EventType.EVENT_TYPE_UNBLOCK)
+
         return onEventUnblock(io, socket, event.data)
       }
     })
