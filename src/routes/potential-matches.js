@@ -5,32 +5,40 @@ const Gender = require('../constants/Gender')
 const {
   getBlockedUserIds,
   whoBlockedMeIds,
-  getDistanceFromUser
+  setDistanceFromUser,
+  setTagsInCommon
 } = require('../utils/matches')
 
 // lowest value first
 // example when sorted by age: [youngest, ..., oldest]
 const getSortBy = key => (a, b) => {
+  if (key === 'amountCommonInterests') {
+    if (a[key] > b[key]) return -1
+    if (b[key] > a[key]) return 1
+
+    return 0
+  }
+
   if (a[key] > b[key]) return 1
   if (b[key] > a[key]) return -1
 
   return 0
 }
 
-const getSortedMatches = (userLoc, matches, sortBy) => {
+const getSortedMatches = (userInterests, userLoc, matches, sortBy) => {
   if (sortBy === 'age') {
     return matches.sort(getSortBy('age'))
   } else if (sortBy === 'fame-rating') {
     return matches.sort(getSortBy('fameRating'))
   } else if (sortBy === 'location') {
-    const matchesDistanceFromYou = getDistanceFromUser(userLoc, matches)
+    setDistanceFromUser(userLoc, matches)
 
-    return matchesDistanceFromYou.sort(getSortBy('distanceFromUser'))
+    return matches.sort(getSortBy('distanceFromUser'))
   } else if (sortBy === 'tags-in-common') {
     // todo: calculate amount of tags in common
-    // const matchesTagsInCommon = getTagsInCommon()
+    setTagsInCommon(userInterests, matches)
 
-    return matches.sort(getSortBy('interests'))
+    return matches.sort(getSortBy('amountCommonInterests'))
   }
 
   return matches
@@ -168,7 +176,7 @@ module.exports = app => {
     })
 
     res.json({
-      filteredPotentialMatches: getSortedMatches(loc, filteredPotentialMatches, sortBy)
+      filteredPotentialMatches: getSortedMatches(req.user.interests, loc, filteredPotentialMatches, sortBy)
     })
   })
 }

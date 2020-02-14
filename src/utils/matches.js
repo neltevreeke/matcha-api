@@ -96,19 +96,32 @@ const getOrCreateRoom = async (userId, likedUserId) => {
   return Room.create({})
 }
 
-const getDistanceFromUser = (userLoc, matches) => {
+const setAmountCommonInterests = (userInterests, matchInterests, match) => {
+  match.amountCommonInterests = 0
+
+  userInterests.filter(element => {
+    matchInterests.map(interest => {
+      if (interest.label === element.label) {
+        match.amountCommonInterests = match.amountCommonInterests + 1
+      }
+    })
+  })
+}
+
+const setTagsInCommon = (userInterests, matches) => {
+  matches.map(match => {
+    setAmountCommonInterests(userInterests, match.interests, match)
+  })
+}
+
+const setDistanceFromUser = (userLoc, matches) => {
   const {
     coordinates
   } = userLoc
 
   matches.map(match => {
-    const distanceFromUser = geolib.getDistance(coordinates, match.loc.coordinates)
-    match.distanceFromUser = distanceFromUser
-
-    return match
+    match.distanceFromUser = geolib.getDistance(coordinates, match.loc.coordinates)
   })
-
-  return matches
 }
 
 module.exports = {
@@ -117,5 +130,6 @@ module.exports = {
   getOrCreateRoom,
   getBlockedUserIds,
   whoBlockedMeIds,
-  getDistanceFromUser
+  setDistanceFromUser,
+  setTagsInCommon
 }
