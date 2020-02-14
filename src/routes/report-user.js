@@ -1,6 +1,8 @@
 const authMiddleware = require('../middleware/auth')
 const Reported = require('../models/ReportedUser')
 const User = require('../models/User')
+const EventType = require('../constants/EventType')
+const sendEmail = require('../utils/sendgrid')
 
 const getReportedUsers = (userId) => {
   return Reported.find({
@@ -44,6 +46,8 @@ module.exports = app => {
       }, {
         $inc: { amountReports: 1 }
       })
+
+      await sendEmail(req.user, reportedUserId, EventType.EVENT_TYPE_REPORT)
     } catch (e) {
       const error = new Error('conflict')
       error.statusCode = 409

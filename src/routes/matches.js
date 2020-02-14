@@ -8,6 +8,7 @@ const Room = require('../models/Room')
 const RoomMessage = require('../models/RoomMessage')
 const Activity = require('../models/Activity')
 const { getMatches } = require('../utils/matches')
+const sendEmail = require('../utils/sendgrid')
 
 module.exports = app => {
   app.get('/matches', authMiddleware, async (req, res) => {
@@ -44,6 +45,12 @@ module.exports = app => {
       const isMatched = await getIsMatched(sourceUserId, userId)
 
       const type = isMatched ? EventType.EVENT_TYPE_MATCH : EventType.EVENT_TYPE_CONNECT
+
+      if (type === EventType.EVENT_TYPE_MATCH) {
+        await sendEmail(req.user, userId, EventType.EVENT_TYPE_MATCH)
+      } else if (type === EventType.EVENT_TYPE_CONNECT) {
+        await sendEmail(req.user, userId, EventType.EVENT_TYPE_CONNECT)
+      }
 
       dispatchEvent(userId, type, req.user)
 
@@ -107,6 +114,8 @@ module.exports = app => {
         })
       }
 
+      sendEmail(req.user, userId, EventType.EVENT_TYPE_DISCONNECT)
+
       if (isMatched) {
         dispatchEvent(userId, EventType.EVENT_TYPE_UNMATCH, req.user)
 
@@ -115,6 +124,8 @@ module.exports = app => {
           targetUserId: userId,
           type: ActivityType.ACTIVITY_TYPE_UNMATCH
         })
+
+        await sendEmail(req.user, userId, EventType.EVENT_TYPE_UNMATCH)
       }
 
       const connectedMatches = await Match

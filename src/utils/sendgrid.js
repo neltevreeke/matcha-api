@@ -83,7 +83,8 @@ const sendEmail = async (user, targetUserId, type) => {
     .select([
       'firstName',
       'lastName',
-      'email'
+      'email',
+      'emailNotifications'
     ])
 
   if (type === EventType.EVENT_TYPE_PROFILE_VIEW) {
