@@ -36,7 +36,7 @@ const getSortedMatches = (userInterests, userLoc, matches, sortBy) => {
     return matches.sort(getSortBy('distanceFromUser'))
   } else if (sortBy === 'tags-in-common') {
     // todo: calculate amount of tags in common
-    setTagsInCommon(userInterests, matches)
+    // setTagsInCommon(userInterests, matches)
 
     return matches.sort(getSortBy('amountCommonInterests'))
   }
@@ -57,8 +57,8 @@ module.exports = app => {
       maxAge,
       maxDistance,
       // todo: calculate amount of tags in common, if between min and max return otherwise filter out user
-      // minTags,
-      // maxTags,
+      minTags,
+      maxTags,
       minFameRating,
       maxFameRating,
       genderPreference,
@@ -142,7 +142,7 @@ module.exports = app => {
       return next(error)
     }
 
-    const filteredPotentialMatches = potentialMatches.filter(match => {
+    let filteredPotentialMatches = potentialMatches.filter(match => {
       const matchIsBisexual = match.genderPreference === GenderPreference.BISEXUAL
       const userIsBisexual = req.user.genderPreference === GenderPreference.BISEXUAL
 
@@ -169,6 +169,16 @@ module.exports = app => {
       }
 
       if (req.user.genderPreference.toLowerCase() === match.gender && match.genderPreference.toLowerCase() === req.user.gender) {
+        return match
+      }
+
+      return false
+    })
+
+    setTagsInCommon(req.user.interests, filteredPotentialMatches)
+
+    filteredPotentialMatches = filteredPotentialMatches.filter(match => {
+      if (match.amountCommonInterests >= minTags && match.amountCommonInterests <= maxTags) {
         return match
       }
 

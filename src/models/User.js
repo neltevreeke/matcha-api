@@ -51,15 +51,42 @@ const userSchema = new mongoose.Schema({
   },
   interests: [interestSchema],
   photos: [photoSchema],
-  fameRating: Number,
-  minDistance: Number,
-  maxDistance: Number,
-  minAge: Number,
-  maxAge: Number,
-  minFameRating: Number,
-  maxFameRating: Number,
-  minTags: Number,
-  maxTags: Number,
+  fameRating: {
+    type: Number,
+    default: 0
+  },
+  minDistance: {
+    type: Number,
+    default: 0
+  },
+  maxDistance: {
+    type: Number,
+    default: 50
+  },
+  minAge: {
+    type: Number,
+    default: 18
+  },
+  maxAge: {
+    type: Number,
+    default: 99
+  },
+  minFameRating: {
+    type: Number,
+    default: 0
+  },
+  maxFameRating: {
+    type: Number,
+    default: 200
+  },
+  minTags: {
+    type: Number,
+    default: 0
+  },
+  maxTags: {
+    type: Number,
+    default: 10
+  },
   genderPreference: {
     type: String,
     enum: Object.values(GenderPreference),
