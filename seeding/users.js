@@ -24,7 +24,8 @@ const users = [{
       52.374323699999997928,
       4.915795099999999529
     ]
-  }
+  },
+  amountReports: 2
 }, {
   email: 'test@test.nl',
   password: 'test',
@@ -55,7 +56,7 @@ const users = [{
     ]
   },
   // amsterdam
-  amountReports: 0,
+  amountReports: 2,
   emailNotifications: {
     connect: true,
     disconnect: true,

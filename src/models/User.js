@@ -126,7 +126,10 @@ const userSchema = new mongoose.Schema({
       default: true
     }
   },
-  amountReports: 0
+  amountReports: {
+    type: Number,
+    default: 0
+  }
 })
 
 userSchema.index({ loc: '2dsphere' })

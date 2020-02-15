@@ -14,6 +14,12 @@ module.exports = app => {
 
       const userObject = user.toObject()
 
+      if (userObject.amountReports >= 3) {
+        const error = new Error('not-allowed')
+        error.statusCode = 403
+        return next(error)
+      }
+
       delete userObject.password
       delete userObject.__v
 
