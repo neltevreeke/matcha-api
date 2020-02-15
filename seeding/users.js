@@ -25,7 +25,7 @@ const users = [{
       4.915795099999999529
     ]
   },
-  amountReports: 2
+  amountReports: 0
 }, {
   email: 'test@test.nl',
   password: 'test',
