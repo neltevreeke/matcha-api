@@ -17,6 +17,8 @@ module.exports = app => {
       password: hashPassword
     })
 
-    res.sendStatus(200)
+    res.json({
+      status: 200
+    })
   })
 }
