@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema({
     enum: Object.values(Gender)
   },
   password: String,
+  passwordResetToken: String,
   biography: String,
   lastSeen: {
     type: Date,
