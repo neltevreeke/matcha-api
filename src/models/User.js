@@ -33,6 +33,11 @@ const userSchema = new mongoose.Schema({
   },
   password: String,
   passwordResetToken: String,
+  verified: {
+    type: Boolean,
+    default: false
+  },
+  verificationToken: String,
   biography: String,
   lastSeen: {
     type: Date,
@@ -151,6 +156,12 @@ userSchema.statics.getAuthenticatedUser = async function (email, password) {
   const user = await this.findOne({
     email
   })
+
+  if (!user.verified) {
+    const error = new Error('unauthorized')
+    error.statusCode = 401
+    throw error
+  }
 
   if (!user || !user.password) {
     const error = new Error('not-found')

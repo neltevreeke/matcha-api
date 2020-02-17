@@ -7,6 +7,7 @@ const users = [{
   password: 'test1234',
   firstName: 'Nelte',
   lastName: 'Vreeke',
+  verified: true,
   age: 25,
   gender: Gender.MALE,
   biography: 'This is a biography',
@@ -27,12 +28,92 @@ const users = [{
   },
   amountReports: 0
 }, {
+  email: 'test@testbimale.nl',
+  password: 'test',
+  verified: true,
+  firstName: 'bisexual',
+  lastName: 'male',
+  age: 27,
+  gender: Gender.MALE,
+  genderPreference: GenderPreference.BISEXUAL,
+  biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
+  photos: [],
+  lastSeen: '2020-02-03T13:20:16.679Z',
+  interests: [{
+    label: 'Golf'
+  }, {
+    label: 'Music Production'
+  }, {
+    label: 'Airsoft'
+  }],
+  fameRating: 24,
+  loc: {
+    type: 'Point',
+    coordinates: [
+      52.370216,
+      4.895168
+    ]
+  },
+  // amsterdam
+  amountReports: 2,
+  emailNotifications: {
+    connect: true,
+    disconnect: true,
+    match: true,
+    unmatch: true,
+    block: true,
+    unblock: true,
+    profileView: true,
+    report: true
+  }
+}, {
+  email: 'test@testgaymale.nl',
+  password: 'test',
+  verified: true,
+  firstName: 'homosexual',
+  lastName: 'male',
+  age: 27,
+  gender: Gender.MALE,
+  genderPreference: GenderPreference.MALE,
+  biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
+  photos: [],
+  lastSeen: '2020-02-03T13:20:16.679Z',
+  interests: [{
+    label: 'Golf'
+  }, {
+    label: 'Music Production'
+  }, {
+    label: 'Airsoft'
+  }],
+  fameRating: 24,
+  loc: {
+    type: 'Point',
+    coordinates: [
+      52.370216,
+      4.895168
+    ]
+  },
+  // amsterdam
+  amountReports: 2,
+  emailNotifications: {
+    connect: true,
+    disconnect: true,
+    match: true,
+    unmatch: true,
+    block: true,
+    unblock: true,
+    profileView: true,
+    report: true
+  }
+}, {
   email: 'test@test.nl',
   password: 'test',
+  verified: true,
   firstName: 'Hetero',
   lastName: 'Woman',
   age: 27,
   gender: Gender.FEMALE,
+  genderPreference: GenderPreference.MALE,
   biography: 'Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proefteksttttttttttttdadwawdawdaaaaaa',
   photos: [{
     cloudinaryPublicId: 'user-photos/zt2acs6aqjobmmmlivwk'
@@ -70,6 +151,7 @@ const users = [{
 }, {
   email: 'gay@male.nl',
   password: 'test',
+  verified: true,
   firstName: 'Gay',
   lastName: 'Male',
   lastSeen: '2020-01-03T12:36:21.679Z',
@@ -96,6 +178,7 @@ const users = [{
 }, {
   email: 'lol@lol.nl',
   password: 'test',
+  verified: true,
   firstName: 'Gay',
   lastName: 'Woman',
   lastSeen: '2020-02-01T10:36:21.679Z',
@@ -123,6 +206,7 @@ const users = [{
 }, {
   email: 'hetero@guy.nl',
   password: 'test',
+  verified: true,
   firstName: 'Hetero',
   lastName: 'Guy',
   lastSeen: '2020-01-03T13:36:21.679Z',
@@ -150,6 +234,7 @@ const users = [{
 }, {
   email: 'bi@woman.nl',
   password: 'test',
+  verified: true,
   firstName: 'Woman',
   lastName: 'isBi',
   lastSeen: '2020-02-03T09:36:21.679Z',
@@ -180,6 +265,7 @@ const users = [{
 }, {
   email: 'woman@woman.nl',
   password: 'test',
+  verified: true,
   firstName: 'Man',
   lastName: 'isBi',
   lastSeen: '2020-02-03T11:36:21.679Z',
