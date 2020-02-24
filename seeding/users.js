@@ -57,14 +57,14 @@ const users = [{
   // amsterdam
   amountReports: 2,
   emailNotifications: {
-    connect: true,
-    disconnect: true,
-    match: true,
-    unmatch: true,
-    block: true,
-    unblock: true,
-    profileView: true,
-    report: true
+    connect: false,
+    disconnect: false,
+    match: false,
+    unmatch: false,
+    block: false,
+    unblock: false,
+    profileView: false,
+    report: false
   }
 }, {
   email: 'test@testgaymale.nl',
@@ -96,14 +96,14 @@ const users = [{
   // amsterdam
   amountReports: 2,
   emailNotifications: {
-    connect: true,
-    disconnect: true,
-    match: true,
-    unmatch: true,
-    block: true,
-    unblock: true,
-    profileView: true,
-    report: true
+    connect: false,
+    disconnect: false,
+    match: false,
+    unmatch: false,
+    block: false,
+    unblock: false,
+    profileView: false,
+    report: false
   }
 }, {
   email: 'test@test.nl',
@@ -139,14 +139,14 @@ const users = [{
   // amsterdam
   amountReports: 2,
   emailNotifications: {
-    connect: true,
-    disconnect: true,
-    match: true,
-    unmatch: true,
-    block: true,
-    unblock: true,
-    profileView: true,
-    report: true
+    connect: false,
+    disconnect: false,
+    match: false,
+    unmatch: false,
+    block: false,
+    unblock: false,
+    profileView: false,
+    report: false
   }
 }, {
   email: 'gay@male.nl',

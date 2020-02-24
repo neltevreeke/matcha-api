@@ -9,6 +9,7 @@ const RoomMessage = require('../models/RoomMessage')
 const Activity = require('../models/Activity')
 const { getMatches } = require('../utils/matches')
 const sendEmail = require('../utils/sendgrid')
+const updateFameRating = require('../utils/famerating')
 
 module.exports = app => {
   app.get('/matches', authMiddleware, async (req, res) => {
@@ -47,8 +48,10 @@ module.exports = app => {
       const type = isMatched ? EventType.EVENT_TYPE_MATCH : EventType.EVENT_TYPE_CONNECT
 
       if (type === EventType.EVENT_TYPE_MATCH) {
+        await updateFameRating(userId)
         await sendEmail(req.user, userId, EventType.EVENT_TYPE_MATCH)
       } else if (type === EventType.EVENT_TYPE_CONNECT) {
+        await updateFameRating(userId)
         await sendEmail(req.user, userId, EventType.EVENT_TYPE_CONNECT)
       }
 

@@ -12,7 +12,7 @@ const {
 // lowest value first
 // example when sorted by age: [youngest, ..., oldest]
 const getSortBy = key => (a, b) => {
-  if (key === 'amountCommonInterests') {
+  if (key === 'amountCommonInterests' || key === 'fameRating') {
     if (a[key] > b[key]) return -1
     if (b[key] > a[key]) return 1
 
